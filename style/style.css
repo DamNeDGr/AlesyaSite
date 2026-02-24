@@ -509,4 +509,11 @@ input:focus {
         gap: 16px;
         font-size: 0.98rem;
     }
+    .nav {
+        display: flex;
+        align-items: center;
+    }
+    .nav-links {
+        display: none;
+    }
 }
