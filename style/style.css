@@ -48,7 +48,7 @@ body {
             rgba(246, 242, 236, 0.84) 46%,
             rgba(246, 242, 236, 0.2) 100%
     ),
-    url("https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1920&q=80");
+    url("/img/bg.jpg");
     background-size: cover;
     background-position: center;
 }
