@@ -259,7 +259,9 @@
             <div>
                 <p class="eyebrow">Контакты</p>
                 <h2>Буду рада вашему обращению</h2>
-                <p><strong>Адрес:</strong> г. Самара, ул. Победы, д. 149</p>
+                <p><strong>Адрес:</strong> <span class="ymaps-geolink">
+                    г. Самара, ул. Победы, д. 149
+                </span></p>
                 <p><strong>Телефон:</strong> <a href="tel:+79991234567">+7 (999) 123-45-67</a></p>
                 <p>
                     <strong>WhatsApp:</strong>
@@ -290,6 +292,8 @@
     </div>
 </footer>
 
+<script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU&load=Geolink"
+        type="text/javascript"></script>
 <script>
     const observer = new IntersectionObserver(
         (entries) => {
