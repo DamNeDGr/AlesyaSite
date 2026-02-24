@@ -48,7 +48,7 @@ body {
             rgba(246, 242, 236, 0.84) 46%,
             rgba(246, 242, 236, 0.2) 100%
     ),
-    url("./img/bg.jpg");
+    url("../img/bg.jpg");
     background-size: cover;
     background-position: center;
 }
