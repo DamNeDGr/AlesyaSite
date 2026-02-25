@@ -4,7 +4,7 @@ export const About = () => {
             <section className="section reveal" id="about">
                 <div className="container specialist-grid">
                     <div className="specialist-photo-wrap">
-                        <img src="/public/alesya.jpg" alt="Специалист по оздоровительным практикам для детей и женщин" />
+                        <img src="/alesya.jpg" alt="Специалист по оздоровительным практикам для детей и женщин" />
                     </div>
                     <article className="specialist-content">
                         <p className="eyebrow">Обо мне</p>

@@ -1,3 +1,99 @@
+import { Service } from "./Service/Service.tsx"
+
+export interface PriceOption {
+    duration: string
+    price: string
+}
+
+export interface IService {
+    title: string
+    description: string
+    prices: PriceOption[]
+}
+
+const centerServices: IService[] = [
+    {
+        title: "Оздоровительный массаж для женщин и детей",
+        description: "Мягкая ручная работа для снятия напряжения, улучшения самочувствия и поддержки организма.",
+        prices: [
+            {
+                duration: "45 минут",
+                price: "1 200 ₽",
+            },
+        ],
+    },
+    {
+        title: "Оздоровительная гимнастика для детей",
+        description: "Индивидуальные занятия для укрепления мышц, развития координации и уверенного движения в своём темпе.",
+        prices: [
+            {
+                duration: "30 минут",
+                price: "900 ₽",
+            },
+            {
+                duration: "60 минут",
+                price: "1 550 ₽",
+            },
+        ],
+    },
+    {
+        title: "Детская йога",
+        description: "Практика осознанного движения для гибкости, устойчивости, внимания и мягкой разгрузки нервной системы.",
+        prices: [
+            {
+                duration: "30 минут",
+                price: "900 ₽",
+            },
+            {
+                duration: "60 минут",
+                price: "1 550 ₽",
+            },
+        ],
+    },
+    {
+        title: "Комплексное развитие детей",
+        description: "Игровые и развивающие занятия с элементами нейропсихологии и сенсорной интеграции.",
+        prices: [
+            {
+                duration: "30 минут",
+                price: "900 ₽",
+            },
+            {
+                duration: "60 минут",
+                price: "1 550 ₽",
+            },
+        ],
+    },
+    {
+        title: "Психолог",
+        description: "Психологическая консультация.",
+        prices: [
+            {
+                duration: "30 минут",
+                price: "1 000 ₽",
+            },
+            {
+                duration: "60 минут",
+                price: "2 000 ₽",
+            },
+        ],
+    },
+    {
+        title: "Подготовка к школе",
+        description: "Игровые и развивающие занятия с элементами нейропсихологии и сенсорной интеграции.",
+        prices: [
+            {
+                duration: "30 минут",
+                price: "700 ₽",
+            },
+            {
+                duration: "60 минут",
+                price: "1 400 ₽",
+            },
+        ],
+    },
+]
+
 export const Services = () => {
     return (
         <>
@@ -6,83 +102,9 @@ export const Services = () => {
                     <p className="eyebrow center">Услуги и цены</p>
                     <h2>Понятные форматы занятий с акцентом на здоровье и развитие</h2>
                     <div className="cards-grid services-grid">
-                        <article className="card service-card">
-                            <h3>Оздоровительный массаж для женщин и детей</h3>
-                            <p>Мягкая ручная работа для снятия напряжения, улучшения самочувствия и поддержки организма.</p>
-                            <div className="price-row">
-                                <span>45 минут</span>
-                                <strong>1 200 ₽</strong>
-                            </div>
-                        </article>
-
-                        <article className="card service-card">
-                            <h3>Оздоровительная гимнастика для детей</h3>
-                            <p>
-                                Индивидуальные занятия для укрепления мышц, развития координации и уверенного движения в своём
-                                темпе.
-                            </p>
-                            <div className="price-row">
-                                <span>30 минут</span>
-                                <strong>900 ₽</strong>
-                            </div>
-                            <div className="price-row">
-                                <span>60 минут</span>
-                                <strong>1 550 ₽</strong>
-                            </div>
-                        </article>
-
-                        <article className="card service-card">
-                            <h3>Детская йога</h3>
-                            <p>
-                                Практика осознанного движения для гибкости, устойчивости, внимания и мягкой разгрузки нервной
-                                системы.
-                            </p>
-                            <div className="price-row">
-                                <span>30 минут</span>
-                                <strong>900 ₽</strong>
-                            </div>
-                            <div className="price-row">
-                                <span>60 минут</span>
-                                <strong>1 550 ₽</strong>
-                            </div>
-                        </article>
-
-                        <article className="card service-card">
-                            <h3>Комплексное развитие детей</h3>
-                            <p>Игровые и развивающие занятия с элементами нейропсихологии и сенсорной интеграции.</p>
-                            <div className="price-row">
-                                <span>30 минут</span>
-                                <strong>900 ₽</strong>
-                            </div>
-                            <div className="price-row">
-                                <span>60 минут</span>
-                                <strong>1 550 ₽</strong>
-                            </div>
-                        </article>
-                        <article className="card service-card">
-                            <h3>Психолог</h3>
-                            <p>Психологическая консультация.</p>
-                            <div className="price-row">
-                                <span>30 минут</span>
-                                <strong>1 000 ₽</strong>
-                            </div>
-                            <div className="price-row">
-                                <span>60 минут</span>
-                                <strong>2 000 ₽</strong>
-                            </div>
-                        </article>
-                        <article className="card service-card">
-                            <h3>Подготовка к школе</h3>
-                            <p>Игровые и развивающие занятия с элементами нейропсихологии и сенсорной интеграции.</p>
-                            <div className="price-row">
-                                <span>30 минут</span>
-                                <strong>700 ₽</strong>
-                            </div>
-                            <div className="price-row">
-                                <span>60 минут</span>
-                                <strong>1 400 ₽</strong>
-                            </div>
-                        </article>
+                        {centerServices.map((service) => (
+                            <Service service={service} />
+                        ))}
                     </div>
                     <p className="section-note">
                         Каждое занятие адаптируется под возраст, состояние и задачи ребёнка или женщины: безопасно, внимательно и
