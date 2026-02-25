@@ -1,15 +1,5 @@
-import { Service } from "./Service/Service.tsx"
-
-export interface PriceOption {
-    duration: string
-    price: string
-}
-
-export interface IService {
-    title: string
-    description: string
-    prices: PriceOption[]
-}
+import { Service } from "./Service"
+import type { IService } from "./Service.types.ts"
 
 const centerServices: IService[] = [
     {

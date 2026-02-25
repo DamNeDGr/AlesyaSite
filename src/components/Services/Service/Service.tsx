@@ -1,4 +1,4 @@
-import type { IService } from "../Services.tsx"
+import type { IService } from "../Service.types.ts"
 
 interface ServiceProps {
     service: IService
