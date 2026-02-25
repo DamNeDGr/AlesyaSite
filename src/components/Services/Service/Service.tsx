@@ -12,7 +12,7 @@ export const Service = ({ service }: ServiceProps) => {
                     <h3>{service.title}</h3>
                     <p>{service.description}</p>
                 </div>
-                <div>
+                <div className="service-card-price">
                     {service.prices.map((serv, i) => (
                         <div className="price-row" key={i}>
                             <span>{serv.duration}</span>

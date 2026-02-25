@@ -1,1 +1,1 @@
-export { Service } from "./Service.ts"
+export { Service } from "./Service"
