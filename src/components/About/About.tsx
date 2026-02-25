@@ -1,3 +1,5 @@
+import { EducationList, WorkExperienceList } from "./About.data.ts"
+
 export const About = () => {
     return (
         <>
@@ -13,18 +15,16 @@ export const About = () => {
 
                         <h3>Образование</h3>
                         <ul className="check-list">
-                            <li>Медико-социальный колледж.</li>
-                            <li>Медицинский университет «Реавиз».</li>
-                            <li>Высшая медицинская академия (Санкт-Петербург): Войта-терапия, Бобат-терапия, массаж.</li>
+                            {EducationList.map((educ, i) => (
+                                <li key={i}>{educ.title}</li>
+                            ))}
                         </ul>
 
                         <h3>Опыт работы</h3>
                         <ul className="check-list">
-                            <li>Медицинская сестра процедурного кабинета / палатная.</li>
-                            <li>Фельдшер неотложной помощи в поликлинике.</li>
-                            <li>Медицинская сестра в детской неврологии.</li>
-                            <li>Массажист в детском саду.</li>
-                            <li>Частная практика: массаж и оздоровительная гимнастика.</li>
+                            {WorkExperienceList.map((work, i) => (
+                                <li key={i}>{work.title}</li>
+                            ))}
                         </ul>
 
                         <p className="about-highlight">
