@@ -170,8 +170,9 @@ h2 {
 
 p {
     margin-top: 0;
-    color: var(--muted);
+    color: oklch(0.205 0 0);
 }
+
 
 .hero-subtitle {
     max-width: 620px;
@@ -203,7 +204,7 @@ p {
 }
 
 .btn-primary {
-    background: var(--accent);
+    background:  #20444d;
     color: #f9f7f3;
     box-shadow: 0 10px 24px rgba(31, 76, 86, 0.26);
 }
@@ -347,7 +348,7 @@ p {
     padding-left: 20px;
     display: grid;
     gap: 8px;
-    color: var(--muted);
+    color: oklch(0.205 0 0);
 }
 
 .about-highlight {
@@ -456,7 +457,7 @@ input:focus {
 }
 
 .contacts-grid a {
-    color: var(--accent);
+    color: oklch(0.205 0 0);
 }
 
 .map-wrap {
