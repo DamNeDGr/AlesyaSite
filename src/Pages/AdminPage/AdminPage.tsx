@@ -1,8 +1,3 @@
 export const AdminPage = () => {
-    return (
-        <div>
-            Admin page
-        </div>
-    )
-}
-
+    return <main className="w-full h-[100vh] px-4">Admin page</main>;
+};
