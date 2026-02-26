@@ -1,9 +1,11 @@
 import { EducationList, WorkExperienceList } from "./About.data.ts"
+import useReveal from "../../hooks/useReveal.ts"
 
 export const About = () => {
+    const revealRef = useReveal<HTMLDivElement>()
     return (
         <>
-            <section className="section reveal" id="about">
+            <section ref={revealRef} className="section reveal" id="about">
                 <div className="container specialist-grid">
                     <div className="specialist-photo-wrap">
                         <img src="/alesya.jpg" alt="Специалист по оздоровительным практикам для детей и женщин" />
