@@ -1,14 +1,15 @@
-import useReveal from "../../hooks/useReveal.ts"
+import useReveal from "@/hooks/useReveal.ts";
+import { Link } from "react-router";
 
 export const Header = () => {
-    const revealRef = useReveal()
+    const revealRef = useReveal();
     return (
         <header className="hero" id="top">
             <div className="hero-overlay"></div>
             <nav className="container nav">
-                <a className="brand" href="#top">
+                <Link className="brand" to={"/"}>
                     Студия развития Шаймордановых
-                </a>
+                </Link>
                 <div className="nav-links">
                     <a href="#services">Услуги и цены</a>
                     <a href="#about">Обо мне</a>
@@ -33,5 +34,5 @@ export const Header = () => {
                 </div>
             </div>
         </header>
-    )
-}
+    );
+};
