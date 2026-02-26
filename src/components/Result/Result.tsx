@@ -1,7 +1,10 @@
+import useReveal from "../../hooks/useReveal.ts"
+
 export const Result = () => {
+    const revealRef = useReveal()
     return (
         <>
-            <section className="section reveal" id="results">
+            <section ref={revealRef} className="section reveal" id="results">
                 <div className="container narrow">
                     <p className="eyebrow center">Результаты</p>
                     <h2>Мягкие и реалистичные изменения, которые замечают мамы</h2>

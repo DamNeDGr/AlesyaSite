@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import useReveal from "../../hooks/useReveal.ts"
 
 export const Contacts = () => {
     useEffect(() => {
@@ -12,9 +13,10 @@ export const Contacts = () => {
             document.body.removeChild(script)
         }
     }, [])
+    const revealRef = useReveal()
     return (
         <>
-            <section className="section reveal" id="contacts">
+            <section ref={revealRef} className="section reveal" id="contacts">
                 <div className="container contacts-grid">
                     <div>
                         <p className="eyebrow">Контакты</p>

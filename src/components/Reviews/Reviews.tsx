@@ -1,7 +1,10 @@
+import useReveal from "../../hooks/useReveal.ts"
+
 export const Reviews = () => {
+    const revealRef = useReveal()
     return (
         <>
-            <section className="section reveal" id="reviews">
+            <section ref={revealRef} className="section reveal" id="reviews">
                 <div className="container">
                     <p className="eyebrow center">Отзывы</p>
                     <h2>Что говорят мамы</h2>

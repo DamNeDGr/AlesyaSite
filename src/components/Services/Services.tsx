@@ -1,5 +1,6 @@
 import { Service } from "./Service"
 import type { IService } from "./Service.types.ts"
+import useReveal from "../../hooks/useReveal.ts"
 
 const centerServices: IService[] = [
     {
@@ -85,9 +86,10 @@ const centerServices: IService[] = [
 ]
 
 export const Services = () => {
+    const revealRef = useReveal()
     return (
         <>
-            <section className="section section-soft reveal" id="services">
+            <section ref={revealRef} className="section section-soft reveal" id="services">
                 <div className="container">
                     <p className="eyebrow center">Услуги и цены</p>
                     <h2>Понятные форматы занятий с акцентом на здоровье и развитие</h2>

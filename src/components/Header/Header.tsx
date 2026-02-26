@@ -1,4 +1,7 @@
+import useReveal from "../../hooks/useReveal.ts"
+
 export const Header = () => {
+    const revealRef = useReveal()
     return (
         <header className="hero" id="top">
             <div className="hero-overlay"></div>
@@ -14,7 +17,7 @@ export const Header = () => {
                 </div>
             </nav>
 
-            <div className="container hero-content reveal">
+            <div ref={revealRef} className="container hero-content reveal">
                 <p className="eyebrow">Оздоровительные практики для женщин и детей 0–14 лет</p>
                 <h1>Бережно помогаю детям и женщинам чувствовать себя сильнее и спокойнее каждый день</h1>
                 <p className="hero-subtitle">

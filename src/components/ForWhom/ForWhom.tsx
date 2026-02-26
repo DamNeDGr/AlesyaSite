@@ -1,7 +1,10 @@
+import useReveal from "../../hooks/useReveal.ts"
+
 export const ForWhom = () => {
+    const revealRef = useReveal()
     return (
         <>
-            <section className="section section-soft reveal" id="for-whom">
+            <section ref={revealRef} className="section section-soft reveal" id="for-whom">
                 <div className="container">
                     <p className="eyebrow center">Кому подойдёт</p>
                     <h2>Поддержка в ситуациях, когда важно действовать мягко и вовремя</h2>

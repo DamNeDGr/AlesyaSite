@@ -1,7 +1,9 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
-export default function useReveal() {
+export default function useReveal<T extends HTMLElement>() {
+    const ref = useRef<T | null>(null)
     useEffect(() => {
+        if (!ref.current) return
         const observer = new IntersectionObserver(
             (entries, observerInstance) => {
                 entries.forEach((entry) => {
@@ -14,9 +16,9 @@ export default function useReveal() {
             { threshold: 0.2 },
         )
 
-        const elements = document.querySelectorAll(".reveal")
-        elements.forEach((el) => observer.observe(el))
+        observer.observe(ref.current)
 
         return () => observer.disconnect()
     }, [])
+    return ref
 }
