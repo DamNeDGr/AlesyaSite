@@ -1,19 +1,19 @@
-import { useEffect } from "react"
-import useReveal from "../../hooks/useReveal.ts"
+import { useEffect } from "react";
+import useReveal from "@/hooks/useReveal.ts";
 
 export const Contacts = () => {
     useEffect(() => {
-        const script = document.createElement("script")
-        script.src = "https://api-maps.yandex.ru/2.1/?apikey=3f679b5c-bbe5-44e7-ac83-346561479344&lang=ru_RU&load=Geolink"
-        script.async = true
+        const script = document.createElement("script");
+        script.src = "https://api-maps.yandex.ru/2.1/?apikey=3f679b5c-bbe5-44e7-ac83-346561479344&lang=ru_RU&load=Geolink";
+        script.async = true;
 
-        document.body.appendChild(script)
+        document.body.appendChild(script);
 
         return () => {
-            document.body.removeChild(script)
-        }
-    }, [])
-    const revealRef = useReveal()
+            document.body.removeChild(script);
+        };
+    }, []);
+    const revealRef = useReveal();
     return (
         <>
             <section ref={revealRef} className="section reveal" id="contacts">
@@ -47,5 +47,5 @@ export const Contacts = () => {
                 </div>
             </section>
         </>
-    )
-}
+    );
+};

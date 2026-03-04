@@ -1,11 +1,11 @@
 import useReveal from "@/hooks/useReveal.ts";
-import { Services } from "@/components/Services";
-import { About } from "@/components/About";
-import { ForWhom } from "@/components/ForWhom";
-import { Result } from "@/components/Result";
-import { Trust } from "@/components/Trust";
-import { Reviews } from "@/components/Reviews";
-import { Contacts } from "@/components/Contacts";
+import { Services } from "@/components/HomePageComponents/Services";
+import { About } from "@/components/HomePageComponents/About";
+import { ForWhom } from "@/components/HomePageComponents/ForWhom";
+import { Result } from "@/components/HomePageComponents/Result";
+import { Trust } from "@/components/HomePageComponents/Trust";
+import { Reviews } from "@/components/HomePageComponents/Reviews";
+import { Contacts } from "@/components/HomePageComponents/Contacts";
 
 export const HomePage = () => {
     useReveal();

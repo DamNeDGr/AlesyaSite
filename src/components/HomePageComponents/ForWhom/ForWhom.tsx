@@ -1,7 +1,7 @@
-import useReveal from "../../hooks/useReveal.ts"
+import useReveal from "@/hooks/useReveal.ts";
 
 export const ForWhom = () => {
-    const revealRef = useReveal()
+    const revealRef = useReveal();
     return (
         <>
             <section ref={revealRef} className="section section-soft reveal" id="for-whom">
@@ -19,5 +19,5 @@ export const ForWhom = () => {
                 </div>
             </section>
         </>
-    )
-}
+    );
+};

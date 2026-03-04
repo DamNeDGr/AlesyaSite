@@ -1,4 +1,4 @@
-import useReveal from '../../hooks/useReveal.ts'
+import useReveal from '@/hooks/useReveal.ts'
 
 export const Trust = () => {
     const revealRef = useReveal()

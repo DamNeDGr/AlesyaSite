@@ -1,7 +1,7 @@
-import useReveal from "../../hooks/useReveal.ts"
+import useReveal from "@/hooks/useReveal.ts";
 
 export const Result = () => {
-    const revealRef = useReveal()
+    const revealRef = useReveal();
     return (
         <>
             <section ref={revealRef} className="section reveal" id="results">
@@ -29,5 +29,5 @@ export const Result = () => {
                 </div>
             </section>
         </>
-    )
-}
+    );
+};

@@ -1,8 +1,8 @@
-import { EducationList, WorkExperienceList } from "./About.data.ts"
-import useReveal from "../../hooks/useReveal.ts"
+import { EducationList, WorkExperienceList } from "./About.data.ts";
+import useReveal from "@/hooks/useReveal.ts";
 
 export const About = () => {
-    const revealRef = useReveal<HTMLDivElement>()
+    const revealRef = useReveal<HTMLDivElement>();
     return (
         <>
             <section ref={revealRef} className="section reveal" id="about">
@@ -36,5 +36,5 @@ export const About = () => {
                 </div>
             </section>
         </>
-    )
-}
+    );
+};
