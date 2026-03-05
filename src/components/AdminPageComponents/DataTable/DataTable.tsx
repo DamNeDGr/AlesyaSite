@@ -1,36 +1,22 @@
 import dayjs from "dayjs";
 
-import {Button, Dropdown, Input, message, Modal, Popconfirm, Table} from "antd";
+import { App as AntApp } from "antd";
+
+import { Button, Dropdown, Input, message, Table } from "antd";
 import { useMemo } from "react";
 import { StatusBadge } from "../StatusBadge/StatusBadge.tsx";
 import type { ColumnsType } from "antd/es/table";
 import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
-import {CopyOutlined} from "@ant-design/icons";
-
-type TService = {
-    id: string;
-    name: string;
-    duration: number;
-};
-
-type Status = "success" | "pending" | "canceled" | "banned";
-
-export type RecordType = {
-    id: string;
-    name: string;
-    phone: string;
-    date: string;
-    timeStart: string;
-    status: Status;
-    service: TService;
-};
+import { CopyOutlined } from "@ant-design/icons";
+import type { IAppointment, IRecordAppointment } from "@/types/appointments.type.ts";
+import type { IService } from "@/types/services.type.ts";
 
 type DataTableProps = {
-    dataSource: RecordType[];
-    services: TService[];
+    dataSource: IAppointment[];
+    services: IService[];
     loading: boolean;
     onDelete: (id: number) => void;
-    setEditingRecord: (record: RecordType) => void;
+    setEditingRecord: (record: IRecordAppointment) => void;
     setIsOpenModalEditAppoint: (isOpen: boolean) => void;
 };
 
@@ -42,6 +28,7 @@ export const DataTable = ({
     setEditingRecord,
     setIsOpenModalEditAppoint,
 }: DataTableProps) => {
+    const { modal } = AntApp.useApp();
     const adminActions = [
         {
             key: "edit",
@@ -70,7 +57,7 @@ export const DataTable = ({
             ),
         },
     ];
-    const columns: ColumnsType<RecordType> = useMemo(
+    const columns: ColumnsType<IRecordAppointment> = useMemo(
         () => [
             {
                 title: "Имя",
@@ -91,7 +78,7 @@ export const DataTable = ({
                             placeholder="Поиск"
                             value={selectedKeys[0]}
                             onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                            onPressEnter={confirm}
+                            onPressEnter={() => confirm()}
                             style={{ marginBottom: 8, display: "block" }}
                         />
                         <div
@@ -104,13 +91,15 @@ export const DataTable = ({
                                 gap: 8,
                             }}
                         >
-                            <Button style={{ width: "50%" }} type="primary" onClick={confirm} size="small">
+                            <Button style={{ width: "50%" }} type="primary" onClick={() => confirm()} size="small">
                                 Найти
                             </Button>
                             <Button
                                 style={{ width: "50%" }}
                                 onClick={() => {
-                                    clearFilters();
+                                    if (clearFilters) {
+                                        clearFilters();
+                                    }
                                     confirm();
                                 }}
                                 size="small"
@@ -120,7 +109,7 @@ export const DataTable = ({
                         </div>
                     </div>
                 ),
-                onFilter: (value: string, record) => record.name.toLowerCase().includes(value.toLowerCase()),
+                onFilter: (value, record) => record.name.toLowerCase().includes(String(value).toLowerCase()),
             },
             {
                 title: "Телефон",
@@ -131,8 +120,8 @@ export const DataTable = ({
                     <span
                         style={{ cursor: "pointer", display: "flex", gap: 6, justifyContent: "center" }}
                         onClick={() => {
-                            navigator.clipboard.writeText(text);
-                            message.success("Телефон скопирован");
+                            void navigator.clipboard.writeText(text);
+                            void message.success("Телефон скопирован");
                         }}
                     >
                         {text} <CopyOutlined />
@@ -148,7 +137,7 @@ export const DataTable = ({
                     text: service.name,
                     value: service.id,
                 })),
-                onFilter: (value, record) => record.service.id === value,
+                onFilter: (value, record) => record.service.id === Number(value),
             },
             {
                 title: "Цена",
@@ -219,7 +208,7 @@ export const DataTable = ({
                                     }
 
                                     if (key === "delete") {
-                                        Modal.confirm({
+                                        modal.confirm({
                                             title: "Удалить услугу?",
                                             okText: "Да",
                                             cancelText: "Нет",

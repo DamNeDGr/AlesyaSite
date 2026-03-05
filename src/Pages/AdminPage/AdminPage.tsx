@@ -1,107 +1,91 @@
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { DataTable } from "@/components/AdminPageComponents/DataTable/DataTable.tsx";
+import { DataTable } from "@/components/AdminPageComponents/DataTable";
 import { FormAdd } from "@/components/AdminPageComponents/FormAdd";
 import { ProfileMenu } from "@/components/AdminPageComponents/ProfileMenu";
 import { ModalBlur } from "@/components/AdminPageComponents/ModalBlur";
-import { FormEdit } from "@/components/AdminPageComponents/FormEdit/FormEdit.tsx";
+import { FormEdit } from "@/components/AdminPageComponents/FormEdit";
 import { Breadcrumb } from "antd";
 import { Link } from "react-router";
+import { CreateAppointments, DeleteAppointments, GetAppointments, UpdateAppointments } from "@/api/Appointments.api.ts";
+import type { IAppointment, IRecordAppointment } from "@/types/appointments.type.ts";
+import type { IService } from "@/types/services.type.ts";
+import { getServices } from "@/api/Services.api.ts";
 
 export const isAdmin = true;
-
 export const AdminPage = () => {
     const [loading, setLoading] = useState(false);
-    const [dataSource, setDataSource] = useState([]);
-    const [services, setServices] = useState([]);
-    const [editingRecords, setEditingRecords] = useState(null);
+    const [dataSource, setDataSource] = useState<IRecordAppointment[] | []>([]);
+    const [services, setServices] = useState<IService[] | []>([]);
+    const [editingRecords, setEditingRecords] = useState<IRecordAppointment | null>(null);
     const [isOpenModalAppoint, setIsOpenModalAppoint] = useState(false);
-    const [isOpenModalService, setIsOpenModalService] = useState(false);
     const [isOpenModalEditAppoint, setIsOpenModalEditAppoint] = useState(false);
-    const GetData = async () => {
+
+    const handleGetAppointments = async () => {
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:3001/appointments?_expand=service");
-            if (!res.ok) {
-                throw new Error("Ошибка получения данных о клиентах");
+            const appointments = await GetAppointments();
+            setDataSource(appointments);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
             }
-            const data = await res.json();
-            setDataSource(data);
-        } catch (err) {
-            toast.error(err.message);
         } finally {
             setLoading(false);
         }
     };
     const GetServices = async () => {
         try {
-            const res = await fetch("http://localhost:3001/services");
-            if (!res.ok) {
-                throw new Error("Ошибка получения данных о услугах");
-            }
-            const services = await res.json();
+            const services = await getServices();
             setServices(services);
-        } catch (err) {
-            toast.error(err.message);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         }
     };
-    const handleDelete = async (id: number) => {
+    const handleDeleteAppointments = async (id: number) => {
         try {
-            const res = await fetch(`http://localhost:3001/appointments/${id}`, {
-                method: "DELETE",
-            });
-            if (!res.ok) {
-                throw new Error("Ошибка удаления записи");
-            }
+            await DeleteAppointments(id);
             toast.success("Запись удалена");
-            GetData();
-        } catch (err) {
-            toast.error("Ошибка удаления записи");
+            await handleGetAppointments();
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         }
     };
-    const handleCreate = async (data: any) => {
+    const handleCreate = async (data: Omit<IAppointment, "id">) => {
         try {
-            const res = await fetch("http://localhost:3001/appointments", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            if (!res.ok) {
-                throw new Error("Ошибка создания записи!");
-            }
+            await CreateAppointments(data);
             toast.success("Запись создана");
-            GetData();
-        } catch (err) {
-            toast.error(err.message);
+            await handleGetAppointments();
+            setIsOpenModalAppoint(false);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         }
     };
 
-    const handleEditAppointment = async (data: any, id) => {
+    const handleEditAppointment = async (data: Omit<IRecordAppointment, "id" | "service">, id: number) => {
         try {
-            const res = await fetch(`http://localhost:3001/appointments/${id}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            if (!res.ok) {
-                throw new Error("Ошибка при изменении данных");
-            }
+            await UpdateAppointments(data, id);
             toast.success("Данные успешно изменены");
             setIsOpenModalEditAppoint(false);
-            GetData();
-        } catch (err) {
-            toast.error(err.message);
+            await handleGetAppointments();
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         }
     };
 
     useEffect(() => {
-        GetServices();
-        GetData();
+        void GetServices();
+        void handleGetAppointments();
     }, []);
+
     return (
         <>
             <ProfileMenu title={"Список клиентов"} btnTitle={"Добавить запись"} openAppoint={() => setIsOpenModalAppoint(true)} />
@@ -129,17 +113,18 @@ export const AdminPage = () => {
                 dataSource={dataSource}
                 services={services}
                 loading={loading}
-                onDelete={handleDelete}
+                onDelete={handleDeleteAppointments}
                 setEditingRecord={setEditingRecords}
                 setIsOpenModalEditAppoint={setIsOpenModalEditAppoint}
             />
             <ModalBlur open={isOpenModalAppoint} onClose={() => setIsOpenModalAppoint(false)}>
                 <FormAdd services={services} onCreate={handleCreate} />
             </ModalBlur>
-
-            <ModalBlur open={isOpenModalEditAppoint} onClose={() => setIsOpenModalEditAppoint(false)}>
-                <FormEdit services={services} onEdit={handleEditAppointment} data={editingRecords} />
-            </ModalBlur>
+            {editingRecords && (
+                <ModalBlur open={isOpenModalEditAppoint} onClose={() => setIsOpenModalEditAppoint(false)}>
+                    <FormEdit services={services} onEdit={handleEditAppointment} data={editingRecords} />
+                </ModalBlur>
+            )}
         </>
     );
 };

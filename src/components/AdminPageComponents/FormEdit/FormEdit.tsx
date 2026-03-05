@@ -1,29 +1,15 @@
 import { Form, Input, Select, DatePicker, TimePicker, Button, Flex } from "antd";
 import { useEffect } from "react";
 import dayjs from "dayjs";
+import type { IAppointment, IRecordAppointment, TAppointmentForm } from "@/types/appointments.type.ts";
+import type { IService } from "@/types/services.type.ts";
 
-type Status = "pending" | "success" | "canceled" | "banned";
-
-type TService = {
-    id: string;
-    name: string;
-    duration: number;
-};
-
-type TData = {
-    id: number;
-    name: string;
-    phone: string;
-    serviceId: number;
-    date: string;
-    status: Status;
-    timeStart: string;
-};
+type formAppointmentsType = Omit<IRecordAppointment, "id" | "service">;
 
 type Props = {
-    services: TService[];
-    onEdit: (data: any, id: number) => void;
-    data: TData;
+    services: IService[];
+    onEdit: (data: formAppointmentsType, id: number) => void;
+    data: IRecordAppointment;
 };
 
 const STATUS_OPTIONS = [
@@ -46,11 +32,11 @@ export const FormEdit = ({ services, onEdit, data }: Props) => {
         }
     }, [data, form]);
 
-    const handleSubmit = (values: any) => {
-        const payload = {
+    const handleSubmit = (values: TAppointmentForm) => {
+        const payload: Omit<IAppointment, "id"> = {
             ...values,
             date: values.date.format("YYYY-MM-DD"),
-            timeStart: values.timeStart.format(),
+            timeStart: values.timeStart.format("HH:mm"),
         };
 
         onEdit(payload, data.id);

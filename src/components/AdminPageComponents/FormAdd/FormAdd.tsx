@@ -1,29 +1,26 @@
 import { Form, Input, Select, DatePicker, TimePicker, Button, Flex } from "antd";
-import dayjs from "dayjs";
+import type { IService } from "@/types/services.type.ts";
+import type { IAppointment, TAppointmentForm } from "@/types/appointments.type.ts";
 
-type TService = {
-    id: string;
-    name: string;
-    duration: number;
-};
+type CreateAppointmentDTO = Omit<IAppointment, "id">;
 
 type Props = {
-    services: TService[];
-    onCreate: (data: any) => void;
+    services: IService[];
+    onCreate: (data: CreateAppointmentDTO) => void;
 };
 
 export const FormAdd = ({ services, onCreate }: Props) => {
     const [form] = Form.useForm();
 
-    const handleSubmit = (values: any) => {
-        const payload = {
+    const handleSubmit = (values: TAppointmentForm) => {
+        const data: Omit<IAppointment, "id"> = {
             ...values,
             date: values.date.format("YYYY-MM-DD"),
-            timeStart: values.timeStart.format(),
+            timeStart: values.timeStart.format("HH:mm"),
             status: "pending",
         };
 
-        onCreate(payload);
+        onCreate(data);
         form.resetFields();
     };
 
