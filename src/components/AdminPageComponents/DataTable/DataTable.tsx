@@ -1,9 +1,10 @@
 import dayjs from "dayjs";
 
-import { Button, Dropdown, Input, Table } from "antd";
+import { Button, Dropdown, Input, Modal, Popconfirm, Table } from "antd";
 import { useMemo } from "react";
 import { StatusBadge } from "../StatusBadge/StatusBadge.tsx";
 import type { ColumnsType } from "antd/es/table";
+import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
 
 type TService = {
     id: string;
@@ -27,10 +28,20 @@ type DataTableProps = {
     dataSource: RecordType[];
     services: TService[];
     loading: boolean;
+    onDelete: (id: number) => void;
+    setEditingRecord: (record: RecordType) => void;
+    setIsOpenModalEditAppoint: (isOpen: boolean) => void;
 };
 
-export const DataTable = ({ dataSource, services, loading }: DataTableProps) => {
-    const items = [
+export const DataTable = ({
+    dataSource,
+    services,
+    loading,
+    onDelete,
+    setEditingRecord,
+    setIsOpenModalEditAppoint,
+}: DataTableProps) => {
+    const adminActions = [
         {
             key: "edit",
             label: (
@@ -44,6 +55,16 @@ export const DataTable = ({ dataSource, services, loading }: DataTableProps) => 
             label: (
                 <Button color="danger" variant="solid" style={{ width: "100%" }}>
                     Удалить
+                </Button>
+            ),
+        },
+    ];
+    const moderatorActions = [
+        {
+            key: "edit",
+            label: (
+                <Button color={"primary"} variant={"solid"} style={{ width: "100%" }}>
+                    Изменить
                 </Button>
             ),
         },
@@ -125,6 +146,13 @@ export const DataTable = ({ dataSource, services, loading }: DataTableProps) => 
                 onFilter: (value, record) => record.service.id === value,
             },
             {
+                title: "Цена",
+                dataIndex: ["service", "price"],
+                key: "service",
+                align: "center",
+                render: (price) => <p>{price} ₽</p>
+            },
+            {
                 title: "Дата записи",
                 dataIndex: "date",
                 key: "date",
@@ -178,20 +206,25 @@ export const DataTable = ({ dataSource, services, loading }: DataTableProps) => 
                     <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
                         <Dropdown
                             menu={{
-                                items,
+                                items: isAdmin ? adminActions : moderatorActions,
                                 onClick: ({ key }) => {
-                                    switch (key) {
-                                        case "edit":
-                                            console.log("EDIT", record.id);
-                                            return "edit";
-                                        case "delete":
-                                            console.log("DELETE", record.id);
-                                            return "delete";
+                                    if (key === "edit") {
+                                        setEditingRecord(record);
+                                        setIsOpenModalEditAppoint(true);
+                                    }
+
+                                    if (key === "delete") {
+                                        Modal.confirm({
+                                            title: "Удалить услугу?",
+                                            okText: "Да",
+                                            cancelText: "Нет",
+                                            onOk: () => onDelete(Number(record.id)),
+                                        });
                                     }
                                 },
                             }}
                             placement="bottom"
-                            trigger={"click"}
+                            trigger={["click"]}
                         >
                             <Button>Действия</Button>
                         </Dropdown>

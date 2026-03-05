@@ -1,0 +1,70 @@
+import { Form, Input, Select, DatePicker, TimePicker, Button, Flex } from "antd";
+import dayjs from "dayjs";
+
+type TService = {
+    id: string;
+    name: string;
+    duration: number;
+};
+
+type Props = {
+    services: TService[];
+    onCreate: (data: any) => void;
+};
+
+export const FormAdd = ({ services, onCreate }: Props) => {
+    const [form] = Form.useForm();
+
+    const handleSubmit = (values: any) => {
+        const payload = {
+            ...values,
+            date: values.date.format("YYYY-MM-DD"),
+            timeStart: values.timeStart.format(),
+            status: "pending",
+        };
+
+        onCreate(payload);
+        form.resetFields();
+    };
+
+    return (
+        <Flex
+            style={{
+                width: "100%",
+                padding: "15px 10px",
+            }}
+        >
+            <Form form={form} layout="vertical" onFinish={handleSubmit} style={{ width: "100%" }}>
+                <Form.Item label="Имя" name="name" rules={[{ required: true, message: "Введите имя" }]}>
+                    <Input placeholder="Имя клиента" />
+                </Form.Item>
+
+                <Form.Item label="Телефон" name="phone" rules={[{ required: true, message: "Введите телефон" }]}>
+                    <Input placeholder="+7..." />
+                </Form.Item>
+
+                <Form.Item label="Услуга" name="serviceId" rules={[{ required: true, message: "Выберите услугу" }]}>
+                    <Select
+                        placeholder="Выберите услугу"
+                        options={services.map((s) => ({
+                            label: s.name,
+                            value: s.id,
+                        }))}
+                    />
+                </Form.Item>
+
+                <Form.Item label="Дата" name="date" rules={[{ required: true, message: "Выберите дату" }]}>
+                    <DatePicker style={{ width: "100%" }} format={"DD.MM.YYYY"} />
+                </Form.Item>
+
+                <Form.Item label="Время" name="timeStart" rules={[{ required: true, message: "Выберите время" }]}>
+                    <TimePicker format="HH:mm" style={{ width: "100%" }} />
+                </Form.Item>
+
+                <Button type="primary" htmlType="submit" block>
+                    Добавить запись
+                </Button>
+            </Form>
+        </Flex>
+    );
+};

@@ -1,7 +1,6 @@
-import { Breadcrumb, Layout, theme } from "antd";
-import { ProfileMenu } from "@/components/AdminPageComponents/ProfileMenu";
-import { Link, Outlet } from "react-router";
-const { Header, Content } = Layout;
+import { Layout, theme } from "antd";
+import { Outlet } from "react-router";
+const { Content } = Layout;
 
 export const AdminLayout = () => {
     const {
@@ -10,26 +9,6 @@ export const AdminLayout = () => {
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }}>
-                    <ProfileMenu />
-                </Header>
-                <Breadcrumb
-                    style={{
-                        marginLeft: "20px",
-                        padding: "5px 0",
-                    }}
-                    separator=">"
-                    items={[
-                        {
-                            key: 1,
-                            title: <Link to={"/"}>Главная</Link>,
-                        },
-                        {
-                            key: 2,
-                            title: "Список клиентов",
-                        },
-                    ]}
-                />
                 <Content
                     style={{
                         margin: "10px 16px",

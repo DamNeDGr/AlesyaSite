@@ -5,6 +5,7 @@ import { NotFoundPage } from "./Pages/ErrorPages/NotFoundPage";
 import { AdminLayout } from "@/components/Layout/AdminLayout";
 import { AdminPage } from "@/Pages/AdminPage";
 import { Bounce, ToastContainer } from "react-toastify";
+import { ServicePage } from "@/Pages/AdminPage/ServicePage/ServicePage.tsx";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     </Route>
                     <Route element={<AdminLayout />}>
                         <Route element={<AdminPage />} path={"/admin"} />
+                        <Route element={<ServicePage />} path={"/services"} />
                     </Route>
                     <Route>
                         <Route path={"*"} element={<NotFoundPage />} />
