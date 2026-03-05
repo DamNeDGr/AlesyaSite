@@ -34,6 +34,7 @@ export const AdminPage = () => {
             setLoading(false);
         }
     };
+
     const GetServices = async () => {
         try {
             const services = await getServices();
@@ -44,6 +45,7 @@ export const AdminPage = () => {
             }
         }
     };
+
     const handleDeleteAppointments = async (id: number) => {
         try {
             await DeleteAppointments(id);
@@ -55,6 +57,7 @@ export const AdminPage = () => {
             }
         }
     };
+
     const handleCreate = async (data: Omit<IAppointment, "id">) => {
         try {
             await CreateAppointments(data);
