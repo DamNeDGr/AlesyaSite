@@ -8,7 +8,7 @@ import { FormEdit } from "@/components/AdminPageComponents/FormEdit/FormEdit.tsx
 import { Breadcrumb } from "antd";
 import { Link } from "react-router";
 
-export const isAdmin = false;
+export const isAdmin = true;
 
 export const AdminPage = () => {
     const [loading, setLoading] = useState(false);

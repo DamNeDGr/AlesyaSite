@@ -1,10 +1,11 @@
 import dayjs from "dayjs";
 
-import { Button, Dropdown, Input, Modal, Popconfirm, Table } from "antd";
+import {Button, Dropdown, Input, message, Modal, Popconfirm, Table} from "antd";
 import { useMemo } from "react";
 import { StatusBadge } from "../StatusBadge/StatusBadge.tsx";
 import type { ColumnsType } from "antd/es/table";
 import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
+import {CopyOutlined} from "@ant-design/icons";
 
 type TService = {
     id: string;
@@ -126,13 +127,17 @@ export const DataTable = ({
                 dataIndex: "phone",
                 key: "phone",
                 align: "center",
-                render: (text) => {
-                    return (
-                        <p style={{ cursor: "pointer" }} onClick={() => navigator.clipboard.writeText(text)}>
-                            {text}
-                        </p>
-                    );
-                },
+                render: (text: string) => (
+                    <span
+                        style={{ cursor: "pointer", display: "flex", gap: 6, justifyContent: "center" }}
+                        onClick={() => {
+                            navigator.clipboard.writeText(text);
+                            message.success("Телефон скопирован");
+                        }}
+                    >
+                        {text} <CopyOutlined />
+                    </span>
+                ),
             },
             {
                 title: "Услуга",
@@ -150,7 +155,7 @@ export const DataTable = ({
                 dataIndex: ["service", "price"],
                 key: "service",
                 align: "center",
-                render: (price) => <p>{price} ₽</p>
+                render: (price) => <span>{price} ₽</span>,
             },
             {
                 title: "Дата записи",
@@ -158,7 +163,7 @@ export const DataTable = ({
                 key: "date",
                 align: "center",
                 sorter: (a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf(),
-                render: (date) => <p>{dayjs(date)?.format("D MMMM YYYY") || "none"}</p>,
+                render: (date) => <span>{dayjs(date)?.format("D MMMM YYYY") || "none"}</span>,
             },
             {
                 title: "Время",
@@ -171,7 +176,7 @@ export const DataTable = ({
                         dataIndex: "timeStart",
                         key: "timeStart",
                         align: "center",
-                        render: (timeStart) => <p>{dayjs(timeStart)?.format("HH:mm")}</p>,
+                        render: (timeStart) => <span>{dayjs(timeStart)?.format("HH:mm")}</span>,
                     },
                     {
                         title: "Конец занятия",
@@ -179,7 +184,7 @@ export const DataTable = ({
                         key: "timeEnd",
                         render: (_, record) => {
                             const endAt = dayjs(record.timeStart).add(record.service?.duration || 0, "minute");
-                            return <p>{dayjs(endAt)?.format("HH:mm")}</p>;
+                            return <span>{dayjs(endAt)?.format("HH:mm")}</span>;
                         },
                     },
                 ],

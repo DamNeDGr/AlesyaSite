@@ -527,3 +527,15 @@ input:focus {
      display: flex;
      flex-direction: row-reverse;
  }
+
+.ant-modal-container {
+    max-width: 200px;
+}
+
+.ant-modal-confirm-btns {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
