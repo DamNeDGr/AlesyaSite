@@ -37,6 +37,7 @@ export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: 
             dataIndex: "price",
             key: "price",
             align: "center",
+            sorter: (a, b) => a.duration - b.duration,
             render: (price: number) => `${price} ₽`,
         },
         {
