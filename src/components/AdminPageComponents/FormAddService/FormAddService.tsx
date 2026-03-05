@@ -1,17 +1,15 @@
 import { Form, Input, InputNumber, Button } from "antd";
 import { useEffect } from "react";
+import type { IService } from "@/types/services.type.ts";
 
-type Service = {
-    id?: number;
-    name: string;
-    duration: number;
-    price: number;
-};
+type serviceForm = Omit<IService, "id">;
 
 type Props = {
-    onEdit?: (data, serviceId: number) => void;
-    onCreate?: (service: Service) => void;
-    service?: Service;
+    // eslint-disable-next-line no-unused-vars
+    onEdit?: (service: serviceForm, id: number) => void;
+    // eslint-disable-next-line no-unused-vars
+    onCreate?: (service: serviceForm) => void;
+    service?: IService;
 };
 
 export const FormAddService = ({ onCreate, onEdit, service }: Props) => {
@@ -21,16 +19,18 @@ export const FormAddService = ({ onCreate, onEdit, service }: Props) => {
         if (service) {
             form.setFieldsValue(service);
         }
-    }, [service]);
+    }, [service, form]);
 
-    const handleSubmit = (values) => {
+    const handleSubmit = (value: serviceForm) => {
         if (onCreate) {
-            onCreate(values);
+            onCreate?.(value);
             form.resetFields();
             return;
         }
-        onEdit(values, Number(service.id));
-        form.resetFields();
+        if (service) {
+            onEdit?.(value, service?.id);
+            form.resetFields();
+        }
     };
 
     return (

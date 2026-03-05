@@ -16,7 +16,7 @@ export const ServicePage = () => {
     const [isOpenModalService, setIsOpenModalService] = useState(false);
     const [isOpenModalEditService, setIsOpenModalEditService] = useState(false);
 
-    const GetServiceHandler = async () => {
+    const handleGetService = async () => {
         setLoading(true);
         try {
             const res = await getServices();
@@ -35,7 +35,7 @@ export const ServicePage = () => {
         try {
             await updateService(service, serviceId);
             toast.success("Данные об услугах успешно изменены");
-            await GetServiceHandler();
+            await handleGetService();
             setIsOpenModalEditService(false);
         } catch (error) {
             if (error instanceof Error) {
@@ -45,12 +45,12 @@ export const ServicePage = () => {
             setLoading(false);
         }
     };
-    const handleDelete = async (id: number) => {
+    const handleDeleteService = async (id: number) => {
         setLoading(true);
         try {
             await deleteService(id);
             toast.success("Услуга удалена");
-            await GetServiceHandler();
+            await handleGetService();
         } catch (error) {
             if (error instanceof Error) {
                 toast.error(error.message);
@@ -66,7 +66,7 @@ export const ServicePage = () => {
             await createService(data);
             toast.success("Услуга создана");
             setIsOpenModalService(false);
-            await GetServiceHandler();
+            await handleGetService();
         } catch (error) {
             if (error instanceof Error) {
                 toast.error(error.message);
@@ -77,7 +77,7 @@ export const ServicePage = () => {
     };
 
     useEffect(() => {
-        void GetServiceHandler();
+        void handleGetService();
     }, []);
 
     return (
@@ -108,7 +108,7 @@ export const ServicePage = () => {
                     services={services}
                     onEdit={setEditingService}
                     openEdit={() => setIsOpenModalEditService(true)}
-                    onDelete={handleDelete}
+                    onDelete={handleDeleteService}
                     loading={loading}
                 />
             )}
