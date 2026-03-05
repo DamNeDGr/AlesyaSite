@@ -6,37 +6,40 @@ import { AdminLayout } from "@/components/Layout/AdminLayout";
 import { AdminPage } from "@/Pages/AdminPage";
 import { Bounce, ToastContainer } from "react-toastify";
 import { ServicePage } from "@/Pages/AdminPage/ServicePage/ServicePage.tsx";
+import { App as AntApp } from "antd";
 
 function App() {
     return (
         <>
-            <BrowserRouter>
-                <Routes>
-                    <Route element={<MainLayout />}>
-                        <Route element={<HomePage />} index />
-                    </Route>
-                    <Route element={<AdminLayout />}>
-                        <Route element={<AdminPage />} path={"/admin"} />
-                        <Route element={<ServicePage />} path={"/services"} />
-                    </Route>
-                    <Route>
-                        <Route path={"*"} element={<NotFoundPage />} />
-                    </Route>
-                </Routes>
-                <ToastContainer
-                    position="bottom-right"
-                    autoClose={5000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover={false}
-                    theme="dark"
-                    transition={Bounce}
-                />
-            </BrowserRouter>
+            <AntApp>
+                <BrowserRouter>
+                    <Routes>
+                        <Route element={<MainLayout />}>
+                            <Route element={<HomePage />} index />
+                        </Route>
+                        <Route element={<AdminLayout />}>
+                            <Route element={<AdminPage />} path={"/admin"} />
+                            <Route element={<ServicePage />} path={"/services"} />
+                        </Route>
+                        <Route>
+                            <Route path={"*"} element={<NotFoundPage />} />
+                        </Route>
+                    </Routes>
+                    <ToastContainer
+                        position="bottom-right"
+                        autoClose={5000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover={false}
+                        theme="dark"
+                        transition={Bounce}
+                    />
+                </BrowserRouter>
+            </AntApp>
         </>
     );
 }
