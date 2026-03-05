@@ -16,7 +16,7 @@ export const FormAdd = ({ services, onCreate }: Props) => {
         const data: Omit<IAppointment, "id"> = {
             ...values,
             date: values.date.format("YYYY-MM-DD"),
-            timeStart: values.timeStart.format("HH:mm"),
+            timeStart: values.timeStart.format(),
             status: "pending",
         };
 
