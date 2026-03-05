@@ -127,11 +127,11 @@ export const ServicePage = () => {
                 loading={loading}
             />
             <ModalBlur open={isOpenModalService} onClose={() => setIsOpenModalService(false)}>
-                <FormAddService onSubmit={handleCreateService} />
+                <FormAddService onCreate={handleCreateService} />
             </ModalBlur>
 
             <ModalBlur open={isOpenModalEditService} onClose={() => setIsOpenModalEditService(false)}>
-                <FormAddService onSubmit={handleEditService} service={editingService} />
+                <FormAddService onEdit={handleEditService} service={editingService} />
             </ModalBlur>
         </>
     );

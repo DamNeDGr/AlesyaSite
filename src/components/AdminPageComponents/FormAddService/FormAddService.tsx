@@ -9,11 +9,12 @@ type Service = {
 };
 
 type Props = {
-    onSubmit: (data, serviceId: number) => void;
+    onEdit?: (data, serviceId: number) => void;
+    onCreate?: (service: Service) => void;
     service?: Service;
 };
 
-export const FormAddService = ({ onSubmit, service }: Props) => {
+export const FormAddService = ({ onCreate, onEdit, service }: Props) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
@@ -23,7 +24,12 @@ export const FormAddService = ({ onSubmit, service }: Props) => {
     }, [service]);
 
     const handleSubmit = (values) => {
-        onSubmit(values, Number(service.id));
+        if (onCreate) {
+            onCreate(values);
+            form.resetFields();
+            return;
+        }
+        onEdit(values, Number(service.id));
         form.resetFields();
     };
 
@@ -38,11 +44,11 @@ export const FormAddService = ({ onSubmit, service }: Props) => {
                 name="duration"
                 rules={[{ required: true, message: "Введите длительность" }]}
             >
-                <InputNumber min={1} style={{ width: "100%" }} />
+                <InputNumber min={1} style={{ width: "100%" }} suffix={"Минуты"} />
             </Form.Item>
 
             <Form.Item label="Цена" name="price" rules={[{ required: true, message: "Введите цену" }]}>
-                <InputNumber min={0} style={{ width: "100%" }} addonAfter="₽" />
+                <InputNumber min={0} style={{ width: "100%" }} suffix="₽" />
             </Form.Item>
 
             <Button type="primary" htmlType="submit" block>
