@@ -20,7 +20,6 @@ export default defineConfig([
       prettier,
     },
     rules: {
-      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
       "no-console": "warn",
       "prettier/prettier": [
         "error",
