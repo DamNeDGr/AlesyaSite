@@ -6,94 +6,78 @@ import { ModalBlur } from "@/components/AdminPageComponents/ModalBlur";
 import { FormAddService } from "@/components/AdminPageComponents/FormAddService/FormAddService.tsx";
 import { Link } from "react-router";
 import { Breadcrumb } from "antd";
+import { createService, deleteService, getServices, updateService } from "@/api/Services.api.ts";
+import type { IService } from "@/types/services.type.ts";
 
 export const ServicePage = () => {
-    const [services, setServices] = useState(null);
-    const [editingService, setEditingService] = useState(null);
+    const [services, setServices] = useState<IService[] | null>(null);
+    const [editingService, setEditingService] = useState<IService | null>(null);
     const [loading, setLoading] = useState(false);
     const [isOpenModalService, setIsOpenModalService] = useState(false);
     const [isOpenModalEditService, setIsOpenModalEditService] = useState(false);
 
-    const GetServices = async () => {
+    const GetServiceHandler = async () => {
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:3001/services");
-            if (!res.ok) {
-                throw new Error("Ошибка получения данных о услугах");
+            const res = await getServices();
+            setServices(res);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
             }
-            const services = await res.json();
-            setServices(services);
-        } catch (err) {
-            toast.error(err.message);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleEditService = async (service, serviceId: number) => {
+    const handleEditService = async (service: Omit<IService, "id">, serviceId: number) => {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:3001/services/${serviceId}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(service),
-            });
-            if (!res.ok) {
-                throw new Error("Ошибка изменения данных об услугах");
-            }
+            await updateService(service, serviceId);
             toast.success("Данные об услугах успешно изменены");
-            GetServices();
+            await GetServiceHandler();
             setIsOpenModalEditService(false);
-        } catch (err) {
-            toast.error(err.message);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         } finally {
             setLoading(false);
         }
     };
-    const handleDelete = async (id) => {
+    const handleDelete = async (id: number) => {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:3001/services/${id}`, {
-                method: "DELETE",
-            });
-            if (!res.ok) {
-                throw new Error("Ошибка удаления услуги");
-            }
+            await deleteService(id);
             toast.success("Услуга удалена");
-            GetServices();
+            await GetServiceHandler();
         } catch (error) {
-            toast.error(error.message);
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    const handleCreateService = async (data: any) => {
+    const handleCreateService = async (data: Omit<IService, "id">) => {
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:3001/services", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-            if (!res.ok) {
-                throw new Error("Ошибка создания услуги");
-            }
+            await createService(data);
             toast.success("Услуга создана");
-            GetServices();
+            setIsOpenModalService(false);
+            await GetServiceHandler();
         } catch (error) {
-            toast.error(error.message);
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        GetServices();
+        void GetServiceHandler();
     }, []);
 
     return (
@@ -119,19 +103,21 @@ export const ServicePage = () => {
                     },
                 ]}
             />
-            <ServiceTable
-                services={services}
-                onEdit={setEditingService}
-                openEdit={() => setIsOpenModalEditService(true)}
-                onDelete={handleDelete}
-                loading={loading}
-            />
+            {services !== null && (
+                <ServiceTable
+                    services={services}
+                    onEdit={setEditingService}
+                    openEdit={() => setIsOpenModalEditService(true)}
+                    onDelete={handleDelete}
+                    loading={loading}
+                />
+            )}
             <ModalBlur open={isOpenModalService} onClose={() => setIsOpenModalService(false)}>
                 <FormAddService onCreate={handleCreateService} />
             </ModalBlur>
 
             <ModalBlur open={isOpenModalEditService} onClose={() => setIsOpenModalEditService(false)}>
-                <FormAddService onEdit={handleEditService} service={editingService} />
+                {editingService !== null && <FormAddService onEdit={handleEditService} service={editingService} />}
             </ModalBlur>
         </>
     );

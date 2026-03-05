@@ -1,24 +1,18 @@
 import { Table, Button, Space, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {isAdmin} from "@/Pages/AdminPage/AdminPage.tsx";
-
-export type Service = {
-    id: number;
-    name: string;
-    duration: number;
-    price: number;
-};
+import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
+import type { IService } from "@/types/services.type.ts";
 
 type Props = {
-    services: Service[];
+    services: IService[];
     loading?: boolean;
-    onEdit: (service: Service) => void;
+    onEdit: (service: IService) => void;
     onDelete: (id: number) => void;
     openEdit: () => void;
 };
 
 export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: Props) => {
-    const columns: ColumnsType<Service> = [
+    const columns: ColumnsType<IService> = [
         {
             title: "Название",
             dataIndex: "name",
