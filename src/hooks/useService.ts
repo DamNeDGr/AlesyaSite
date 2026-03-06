@@ -64,7 +64,7 @@ export const useService = () => {
         }
     };
 
-    return {
+    const states = {
         loading,
         services,
         currentService,
@@ -73,9 +73,17 @@ export const useService = () => {
         setOpenModalService,
         openModalUpdateService,
         setOpenModalUpdateService,
+    };
+
+    const actions = {
         handleGetService,
         handleEditService,
         handleDeleteService,
         handleCreateService,
+    };
+
+    return {
+        ...states,
+        ...actions,
     };
 };

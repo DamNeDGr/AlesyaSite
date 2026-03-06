@@ -32,7 +32,6 @@ export const FormEdit = ({ services, onEdit, data }: Props) => {
         }
     }, [data, form]);
 
-    console.log(data);
 
     const handleSubmit = (values: TAppointmentForm) => {
         const payload: Omit<IAppointment, "id"> = {
