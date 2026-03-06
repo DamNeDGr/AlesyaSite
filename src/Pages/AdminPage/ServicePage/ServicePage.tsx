@@ -60,7 +60,7 @@ export const ServicePage = () => {
                 />
             )}
             <ModalBlur open={openModalService} onClose={() => setOpenModalService(false)}>
-                <FormAddService onCreate={handleCreateService} />
+                <FormAddService loading={loading} onCreate={handleCreateService} />
             </ModalBlur>
 
             <ModalBlur open={openModalUpdateService} onClose={() => setOpenModalUpdateService(false)}>

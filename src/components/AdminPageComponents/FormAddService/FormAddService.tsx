@@ -10,9 +10,10 @@ type Props = {
     // eslint-disable-next-line no-unused-vars
     onCreate?: (service: serviceForm) => void;
     service?: IService;
+    loading?: boolean;
 };
 
-export const FormAddService = ({ onCreate, onEdit, service }: Props) => {
+export const FormAddService = ({ onCreate, onEdit, service, loading }: Props) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
@@ -51,7 +52,7 @@ export const FormAddService = ({ onCreate, onEdit, service }: Props) => {
                 <InputNumber min={0} style={{ width: "100%" }} suffix="₽" />
             </Form.Item>
 
-            <Button type="primary" htmlType="submit" block>
+            <Button type="primary" htmlType="submit" block loading={loading}>
                 {service ? "Изменить услугу" : "Создать услугу"}
             </Button>
         </Form>
