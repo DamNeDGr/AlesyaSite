@@ -27,7 +27,6 @@ export const AdminPage = () => {
         handleDeleteAppointments,
     } = useClient();
 
-
     useEffect(() => {
         void handleGetAppointments();
         void handleGetService();
@@ -73,7 +72,7 @@ export const AdminPage = () => {
             </ModalBlur>
             {currentAppointment && (
                 <ModalBlur open={openModalUpdateAppointment} onClose={() => setOpenModalUpdateAppointment(false)}>
-                    <FormEdit services={services} onEdit={handleEditAppointment} data={currentAppointment} />
+                    <FormEdit services={services} onEdit={handleEditAppointment} data={currentAppointment} loading={loading} />
                 </ModalBlur>
             )}
         </>

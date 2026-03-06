@@ -10,6 +10,7 @@ type Props = {
     services: IService[];
     onEdit: (data: formAppointmentsType, id: number) => void;
     data: IRecordAppointment;
+    loading?: boolean;
 };
 
 const STATUS_OPTIONS = [
@@ -19,7 +20,7 @@ const STATUS_OPTIONS = [
     { value: "banned", label: "Черный список" },
 ];
 
-export const FormEdit = ({ services, onEdit, data }: Props) => {
+export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
@@ -31,7 +32,6 @@ export const FormEdit = ({ services, onEdit, data }: Props) => {
             });
         }
     }, [data, form]);
-
 
     const handleSubmit = (values: TAppointmentForm) => {
         const payload: Omit<IAppointment, "id"> = {
@@ -81,7 +81,7 @@ export const FormEdit = ({ services, onEdit, data }: Props) => {
                 <Form.Item label="Статус" name="status" rules={[{ required: true, message: "Выберите статус" }]}>
                     <Select placeholder="Выберите статус" options={STATUS_OPTIONS} />
                 </Form.Item>
-                <Button type="primary" htmlType="submit" block>
+                <Button type="primary" htmlType="submit" block loading={loading}>
                     Изменить запись
                 </Button>
             </Form>

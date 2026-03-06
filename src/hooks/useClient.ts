@@ -45,6 +45,7 @@ export const useClient = () => {
     };
 
     const handleEditAppointment = async (data: Omit<IRecordAppointment, "id" | "service">, id: number) => {
+        setLoading(true);
         try {
             await UpdateAppointments(data, id);
             toast.success("Данные успешно изменены");
@@ -52,6 +53,9 @@ export const useClient = () => {
             await handleGetAppointments();
         } catch (error) {
             handleError(error);
+        } finally {
+            setOpenModalUpdateAppointment(false);
+            setLoading(false);
         }
     };
 
