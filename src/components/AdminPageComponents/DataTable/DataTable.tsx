@@ -60,6 +60,12 @@ export const DataTable = ({
     const columns: ColumnsType<IRecordAppointment> = useMemo(
         () => [
             {
+                title: "№",
+                render: (_: unknown, __: unknown, index: number) => index + 1,
+                width: 70,
+                align: "center",
+            },
+            {
                 title: "Имя",
                 dataIndex: "name",
                 key: "name",
