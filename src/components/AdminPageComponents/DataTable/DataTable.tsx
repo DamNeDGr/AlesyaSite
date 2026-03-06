@@ -8,11 +8,11 @@ import { StatusBadge } from "../StatusBadge/StatusBadge.tsx";
 import type { ColumnsType } from "antd/es/table";
 import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
 import { CopyOutlined } from "@ant-design/icons";
-import type { IAppointment, IRecordAppointment } from "@/types/appointments.type.ts";
+import type { IRecordAppointment } from "@/types/appointments.type.ts";
 import type { IService } from "@/types/services.type.ts";
 
 type DataTableProps = {
-    dataSource: IAppointment[];
+    dataSource: IRecordAppointment[];
     services: IService[];
     loading: boolean;
     onDelete: (id: number) => void;
@@ -226,14 +226,14 @@ export const DataTable = ({
                 ),
             },
         ],
-        [services],
+        [services, modal, onDelete, setEditingRecord, setIsOpenModalEditAppoint, adminActions, moderatorActions],
     );
 
     return (
         <>
-            <Table
+            <Table<IRecordAppointment>
                 columns={columns}
-                dataSource={dataSource || []}
+                dataSource={dataSource}
                 rowKey="id"
                 size={"middle"}
                 loading={loading}
