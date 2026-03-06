@@ -12,7 +12,6 @@ export const ProfileMenu = ({ title, btnTitle, openAppoint }: ProfileMenuProps) 
         <>
             <Flex
                 style={{
-                    margin: "0 20px",
                     padding: "5px 0",
                     justifyContent: "space-between",
                 }}
