@@ -11,6 +11,16 @@ type Props = {
     openEdit: () => void;
 };
 
+const formatDuration = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+
+    if (hours === 0) return `${mins} мин`;
+    if (mins === 0) return `${hours} ч`;
+
+    return `${hours} ч ${mins} мин`;
+};
+
 export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: Props) => {
     const columns: ColumnsType<IService> = [
         {
@@ -24,7 +34,7 @@ export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: 
             dataIndex: "duration",
             key: "duration",
             align: "center",
-            render: (duration: number) => `${duration} мин`,
+            render: (duration: number) => formatDuration(duration),
         },
         {
             title: "Цена",
@@ -32,7 +42,7 @@ export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: 
             key: "price",
             align: "center",
             sorter: (a, b) => a.duration - b.duration,
-            render: (price: number) => `${price} ₽`,
+            render: (price: number) => `${new Intl.NumberFormat("ru-RU").format(price)} ₽`,
         },
         {
             title: "Действия",

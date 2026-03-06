@@ -1,6 +1,7 @@
 import { Form, Input, Select, DatePicker, TimePicker, Button, Flex } from "antd";
 import type { IService } from "@/types/services.type.ts";
 import type { IAppointment, TAppointmentForm } from "@/types/appointments.type.ts";
+import dayjs from "dayjs";
 
 type CreateAppointmentDTO = Omit<IAppointment, "id">;
 
@@ -51,11 +52,34 @@ export const FormAdd = ({ services, onCreate }: Props) => {
                 </Form.Item>
 
                 <Form.Item label="Дата" name="date" rules={[{ required: true, message: "Выберите дату" }]}>
-                    <DatePicker style={{ width: "100%" }} format={"DD.MM.YYYY"} />
+                    <DatePicker
+                        style={{ width: "100%" }}
+                        format={"DD.MM.YYYY"}
+                        disabledDate={(current) =>
+                            current && (current < dayjs().startOf("day") || current > dayjs().add(40, "day").endOf("day"))
+                        }
+                    />
                 </Form.Item>
 
                 <Form.Item label="Время" name="timeStart" rules={[{ required: true, message: "Выберите время" }]}>
-                    <TimePicker format="HH:mm" style={{ width: "100%" }} />
+                    <TimePicker
+                        format="HH:mm"
+                        style={{ width: "100%" }}
+                        minuteStep={10}
+                        defaultValue={dayjs("09:00", "HH:mm")}
+                        disabledTime={() => ({
+                            disabledHours: () => [
+                                ...Array.from({ length: 9 }, (_, i) => i),
+                                ...Array.from({ length: 3 }, (_, i) => i + 21),
+                            ],
+                            disabledMinutes: (hour) => {
+                                if (hour === 20) {
+                                    return [30];
+                                }
+                                return [];
+                            },
+                        })}
+                    />
                 </Form.Item>
 
                 <Button type="primary" htmlType="submit" block>

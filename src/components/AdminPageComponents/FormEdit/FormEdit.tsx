@@ -27,6 +27,7 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
         if (data) {
             form.setFieldsValue({
                 ...data,
+                serviceId: data.service.id,
                 date: dayjs(data.date),
                 timeStart: dayjs(data.timeStart),
             });
@@ -71,11 +72,33 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
                 </Form.Item>
 
                 <Form.Item label="Дата" name="date" rules={[{ required: true, message: "Выберите дату" }]}>
-                    <DatePicker style={{ width: "100%" }} format={"DD.MM.YYYY"} />
+                    <DatePicker
+                        style={{ width: "100%" }}
+                        format={"DD.MM.YYYY"}
+                        disabledDate={(current) =>
+                            current && (current < dayjs().startOf("day") || current > dayjs().add(40, "day").endOf("day"))
+                        }
+                    />
                 </Form.Item>
 
                 <Form.Item label="Время" name="timeStart" rules={[{ required: true, message: "Выберите время" }]}>
-                    <TimePicker format="HH:mm" style={{ width: "100%" }} />
+                    <TimePicker
+                        format="HH:mm"
+                        style={{ width: "100%" }}
+                        minuteStep={10}
+                        disabledTime={() => ({
+                            disabledHours: () => [
+                                ...Array.from({ length: 9 }, (_, i) => i),
+                                ...Array.from({ length: 3 }, (_, i) => i + 21),
+                            ],
+                            disabledMinutes: (hour) => {
+                                if (hour === 20) {
+                                    return [30];
+                                }
+                                return [];
+                            },
+                        })}
+                    />
                 </Form.Item>
 
                 <Form.Item label="Статус" name="status" rules={[{ required: true, message: "Выберите статус" }]}>

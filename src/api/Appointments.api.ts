@@ -2,7 +2,7 @@ import type { IAppointment, IRecordAppointment } from "@/types/appointments.type
 import { api } from "@/api/api.ts";
 
 export const GetAppointments = async (): Promise<IRecordAppointment[]> => {
-    const res = await api.get("/appointments?_expand=service");
+    const res = await api.get("/appointments");
     return res.data;
 };
 
