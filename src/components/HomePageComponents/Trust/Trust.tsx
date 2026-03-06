@@ -1,13 +1,13 @@
-import useReveal from '@/hooks/useReveal.ts'
+import useReveal from "@/hooks/useReveal.ts";
 
 export const Trust = () => {
-    const revealRef = useReveal()
+    const revealRef = useReveal();
     return (
         <>
             <section ref={revealRef} className="section section-soft reveal" id="trust">
                 <div className="container narrow">
                     <p className="eyebrow center">Почему мне доверяют</p>
-                    <h2>Профессионально, спокойно и с заботой о каждом ребёнке</h2>
+                    <h2 className="trust__title">Профессионально, спокойно и с заботой о каждом ребёнке</h2>
                     <ul className="trust-list">
                         <li>Большой опыт работы в данной сфере.</li>
                         <li>Индивидуальный план с учётом возраста и особенностей развития.</li>
@@ -19,5 +19,5 @@ export const Trust = () => {
                 </div>
             </section>
         </>
-    )
-}
+    );
+};

@@ -63,6 +63,9 @@ body {
 .hero-content {
     position: relative;
     z-index: 1;
+    h1 {
+        color: var(--ink)
+    }
 }
 
 .nav {
@@ -168,6 +171,7 @@ p {
 
 .btn-primary:hover {
     background: #20444d;
+    color: #f9f7f3;
 }
 
 .btn-secondary {
@@ -225,6 +229,14 @@ p {
     display: grid;
     gap: 14px;
     align-content: space-between;
+
+    h3 {
+        color: var(--accent-soft);
+    }
+}
+
+.service__title {
+    color: var(--accent);
 }
 
 .service-card .price-row {
@@ -233,6 +245,11 @@ p {
     border: 1px solid rgba(31, 76, 86, 0.1);
     border-radius: 12px;
     padding: 12px 14px;
+    color: var(--accent-soft);
+
+    span {
+        font-weight: bold;
+    }
 }
 
 .section-note {
@@ -297,6 +314,12 @@ p {
 
 .specialist-content h3 {
     margin: 24px 0 10px;
+    color: var(--accent-soft);
+    font-weight: 600;
+}
+
+.specialist-content h2 {
+    color: var(--accent-soft);
 }
 
 .check-list {
@@ -337,6 +360,10 @@ p {
 .price-row strong {
     font-size: 1.12rem;
     color: var(--ink);
+}
+
+.for_whom__title {
+    color: var(--accent-soft);
 }
 
 .centered-btn {
@@ -392,6 +419,7 @@ input:focus {
     border-radius: 12px;
     padding: 14px 18px;
     font-weight: 600;
+    color: var(--ink);
 }
 
 .results-grid,
@@ -399,6 +427,27 @@ input:focus {
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 12px;
+}
+
+.results__title {
+    color: var(--accent-soft);
+}
+
+.results_card__title {
+    color: var(--ink);
+}
+
+
+.trust__title {
+    color: var(--accent-soft);
+}
+
+.reviews__title {
+    color: var(--accent-soft);
+}
+
+.reviews__contactname {
+    color: var(--ink);
 }
 
 .contacts-grid {
@@ -412,8 +461,13 @@ input:focus {
     margin-bottom: 12px;
 }
 
+
 .contacts-grid a {
     color: var(--accent);
+}
+
+.contact__title {
+    color: var(--accent-soft);
 }
 
 .map-wrap {

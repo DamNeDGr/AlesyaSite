@@ -32,11 +32,13 @@ export const FormEdit = ({ services, onEdit, data }: Props) => {
         }
     }, [data, form]);
 
+    console.log(data);
+
     const handleSubmit = (values: TAppointmentForm) => {
         const payload: Omit<IAppointment, "id"> = {
             ...values,
             date: values.date.format("YYYY-MM-DD"),
-            timeStart: values.timeStart.format("HH:mm"),
+            timeStart: values.timeStart.format(),
         };
 
         onEdit(payload, data.id);

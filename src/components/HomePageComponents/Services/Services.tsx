@@ -92,7 +92,7 @@ export const Services = () => {
             <section ref={revealRef} className="section section-soft reveal" id="services">
                 <div className="container">
                     <p className="eyebrow center">Услуги и цены</p>
-                    <h2>Понятные форматы занятий с акцентом на здоровье и развитие</h2>
+                    <h2 className="service__title">Понятные форматы занятий с акцентом на здоровье и развитие</h2>
                     <div className="cards-grid services-grid">
                         {centerServices.map((service) => (
                             <Service service={service} />

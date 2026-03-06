@@ -20,7 +20,7 @@ export const Contacts = () => {
                 <div className="container contacts-grid">
                     <div>
                         <p className="eyebrow">Контакты</p>
-                        <h2>Буду рада вашему обращению</h2>
+                        <h2 className="contact__title">Буду рада вашему обращению</h2>
                         <p>
                             <strong>Адрес:</strong> <span className="ymaps-geolink">г. Самара, ул. Победы, д. 149</span>
                         </p>

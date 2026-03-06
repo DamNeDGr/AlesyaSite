@@ -7,7 +7,7 @@ export const ForWhom = () => {
             <section ref={revealRef} className="section section-soft reveal" id="for-whom">
                 <div className="container">
                     <p className="eyebrow center">Кому подойдёт</p>
-                    <h2>Поддержка в ситуациях, когда важно действовать мягко и вовремя</h2>
+                    <h2 className="for_whom__title">Поддержка в ситуациях, когда важно действовать мягко и вовремя</h2>
                     <ul className="audience-list">
                         <li>Детям с нарушением осанки.</li>
                         <li>Детям с задержкой речи.</li>
