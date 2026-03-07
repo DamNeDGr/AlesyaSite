@@ -27,7 +27,7 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
         if (data) {
             form.setFieldsValue({
                 ...data,
-                serviceId: data.service.id,
+                serviceId: data?.service?.id || null,
                 date: dayjs(data.date),
                 timeStart: dayjs(data.timeStart),
             });
