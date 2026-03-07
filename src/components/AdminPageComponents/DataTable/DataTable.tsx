@@ -218,6 +218,7 @@ export const DataTable = ({
                                             title: "Удалить услугу?",
                                             okText: "Да",
                                             cancelText: "Нет",
+                                            width: 200,
                                             onOk: () => onDelete(Number(record.id)),
                                         });
                                     }
