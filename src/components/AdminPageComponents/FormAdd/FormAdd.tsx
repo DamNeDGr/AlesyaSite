@@ -66,7 +66,6 @@ export const FormAdd = ({ services, onCreate }: Props) => {
                         format="HH:mm"
                         style={{ width: "100%" }}
                         minuteStep={10}
-                        defaultValue={dayjs("09:00", "HH:mm")}
                         disabledTime={() => ({
                             disabledHours: () => [
                                 ...Array.from({ length: 9 }, (_, i) => i),
