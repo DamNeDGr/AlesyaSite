@@ -5,9 +5,7 @@ import type { IService } from "@/types/services.type.ts";
 type serviceForm = Omit<IService, "id">;
 
 type Props = {
-    // eslint-disable-next-line no-unused-vars
-    onEdit?: (service: serviceForm, id: number) => void;
-    // eslint-disable-next-line no-unused-vars
+    onEdit?: (id: number, service: serviceForm) => void;
     onCreate?: (service: serviceForm) => void;
     service?: IService;
     loading?: boolean;
@@ -17,6 +15,7 @@ export const FormAddService = ({ onCreate, onEdit, service, loading }: Props) =>
     const [form] = Form.useForm();
 
     useEffect(() => {
+        if (!service) return;
         if (service) {
             form.setFieldsValue(service);
         }
@@ -29,8 +28,7 @@ export const FormAddService = ({ onCreate, onEdit, service, loading }: Props) =>
             return;
         }
         if (service) {
-            onEdit?.(value, service?.id);
-            form.resetFields();
+            onEdit?.(service?.id, value);
         }
     };
 

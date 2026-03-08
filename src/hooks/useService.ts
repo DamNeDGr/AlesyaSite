@@ -1,89 +1,97 @@
 import { useState } from "react";
 import type { IService } from "@/types/services.type.ts";
-import { createService, deleteService, getServices, updateService } from "@/api/Services.api.ts";
+import { CreateServices, DeleteServices, GetServices, UpdateServices } from "@/api/Services.api.ts";
 import { toast } from "react-toastify";
 import { handleError } from "@/helpers/errorHelper.ts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useService = () => {
-    const [services, setServices] = useState<IService[]>([]);
     const [currentService, setCurrentService] = useState<IService | null>(null);
-    const [loading, setLoading] = useState(false);
     const [openModalService, setOpenModalService] = useState(false);
     const [openModalUpdateService, setOpenModalUpdateService] = useState(false);
 
-    const handleGetService = async () => {
-        setLoading(true);
-        try {
-            const res = await getServices();
-            setServices(res);
-        } catch (error) {
-            handleError(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const queryClient = useQueryClient();
 
-    const handleEditService = async (service: Omit<IService, "id">, serviceId: number) => {
-        setLoading(true);
-        try {
-            await updateService(service, serviceId);
-            toast.success("Данные об услугах успешно изменены");
-            await handleGetService();
-            setOpenModalUpdateService(false);
-        } catch (error) {
-            handleError(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const serviceQuery = useQuery({
+        queryKey: ["services"],
+        queryFn: GetServices,
+    });
 
-    const handleDeleteService = async (id: number) => {
-        setLoading(true);
-        try {
-            await deleteService(id);
-            toast.success("Услуга удалена");
-            await handleGetService();
-        } catch (error) {
-            handleError(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleCreateService = async (data: Omit<IService, "id">) => {
-        setLoading(true);
-        try {
-            await createService(data);
+    const createService = useMutation({
+        mutationFn: CreateServices,
+        onSuccess: () => {
+            void queryClient.invalidateQueries({
+                queryKey: ["services"],
+            });
             toast.success("Услуга создана");
             setOpenModalService(false);
-            await handleGetService();
-        } catch (error) {
+        },
+        onError: (error: Error) => {
+            toast.error("Ошибка создания услуги");
             handleError(error);
-        } finally {
-            setLoading(false);
-        }
+            setOpenModalService(false);
+        },
+    });
+
+    const updateMutation = useMutation({
+        mutationFn: ({ serviceId, data }: { serviceId: number; data: Omit<IService, "id"> }) => {
+            return UpdateServices(serviceId, data);
+        },
+        onSuccess: () => {
+            void queryClient.invalidateQueries({
+                queryKey: ["services"],
+            });
+            toast.success("Услуга успешно изменена");
+            setOpenModalUpdateService(false);
+        },
+        onError: (error) => {
+            handleError(error);
+            toast.error("Ошибка изменения услуги");
+            setOpenModalUpdateService(false);
+        },
+    });
+
+    const updateService = (serviceId: number, data: Omit<IService, "id">) => {
+        updateMutation.mutate({
+            serviceId,
+            data,
+        });
     };
 
-    const states = {
-        loading,
-        services,
-        currentService,
-        setCurrentService,
+    const deleteService = useMutation({
+        mutationFn: DeleteServices,
+        onSuccess: () => {
+            void queryClient.invalidateQueries({
+                queryKey: ["services"],
+            });
+            toast.success("Услуга удалена");
+        },
+        onError: (error: Error) => {
+            toast.error("Ошибка удаления услуги");
+            handleError(error);
+        },
+    });
+
+    const tanstackActions = {
+        isLoading: serviceQuery.isLoading,
+        loading: updateMutation.isPending,
+        services: serviceQuery.data ?? [],
+        createService: createService.mutate,
+        updateService,
+        deleteService: deleteService.mutate,
+    };
+
+    const serviceStates = {
         openModalService,
         setOpenModalService,
         openModalUpdateService,
         setOpenModalUpdateService,
-    };
-
-    const actions = {
-        handleGetService,
-        handleEditService,
-        handleDeleteService,
-        handleCreateService,
+        currentService,
+        setCurrentService,
     };
 
     return {
-        ...states,
-        ...actions,
+        ...tanstackActions,
+        ...serviceStates,
     };
 };

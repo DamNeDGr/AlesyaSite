@@ -1,5 +1,4 @@
 import { ServiceTable } from "@/components/AdminPageComponents/DataTable/ServiceTable";
-import { useEffect } from "react";
 import { ProfileMenu } from "@/components/AdminPageComponents/ProfileMenu";
 import { ModalBlur } from "@/components/AdminPageComponents/ModalBlur";
 import { FormAddService } from "@/components/AdminPageComponents/FormAddService/FormAddService.tsx";
@@ -9,23 +8,19 @@ import { useService } from "@/hooks/useService.ts";
 
 export const ServicePage = () => {
     const {
-        loading,
-        services,
-        currentService,
-        setCurrentService,
         openModalService,
         setOpenModalService,
         openModalUpdateService,
         setOpenModalUpdateService,
-        handleGetService,
-        handleEditService,
-        handleDeleteService,
-        handleCreateService,
+        currentService,
+        setCurrentService,
+        services,
+        isLoading,
+        loading,
+        createService,
+        updateService,
+        deleteService,
     } = useService();
-
-    useEffect(() => {
-        void handleGetService();
-    }, []);
 
     return (
         <>
@@ -55,16 +50,16 @@ export const ServicePage = () => {
                     services={services}
                     onEdit={setCurrentService}
                     openEdit={() => setOpenModalUpdateService(true)}
-                    onDelete={handleDeleteService}
-                    loading={loading}
+                    onDelete={deleteService}
+                    loading={isLoading}
                 />
             )}
             <ModalBlur open={openModalService} onClose={() => setOpenModalService(false)}>
-                <FormAddService loading={loading} onCreate={handleCreateService} />
+                <FormAddService loading={loading} onCreate={createService} />
             </ModalBlur>
 
             <ModalBlur open={openModalUpdateService} onClose={() => setOpenModalUpdateService(false)}>
-                {currentService !== null && <FormAddService onEdit={handleEditService} service={currentService} />}
+                {currentService !== null && <FormAddService onEdit={updateService} service={currentService} loading={loading} />}
             </ModalBlur>
         </>
     );

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { DataTable } from "@/components/AdminPageComponents/DataTable";
 import { FormAdd } from "@/components/AdminPageComponents/FormAdd";
 import { ProfileMenu } from "@/components/AdminPageComponents/ProfileMenu";
@@ -11,7 +10,6 @@ import { useService } from "@/hooks/useService.ts";
 
 export const isAdmin = true;
 export const AdminPage = () => {
-    const { services, handleGetService } = useService();
     const {
         appointments,
         isLoading,
@@ -26,27 +24,7 @@ export const AdminPage = () => {
         openModalUpdateAppointment,
         setOpenModalUpdateAppointment,
     } = useClient();
-    // const {
-    //     loading,
-    //     openModalCreateAppointment,
-    //     setOpenModalCreateAppointment,
-    //     openModalUpdateAppointment,
-    //     setOpenModalUpdateAppointment,
-    //     currentAppointment,
-    //     setCurrentAppointment,
-    //     appointments,
-    //     handleCreate,
-    //     handleGetAppointments,
-    //     handleEditAppointment,
-    //     handleDeleteAppointments,
-    // } = useClient();
-
-    useEffect(() => {
-        // void handleGetAppointments();
-        void handleGetService();
-    }, []);
-
-    console.log(appointments);
+    const { services } = useService();
 
     return (
         <>
@@ -78,7 +56,7 @@ export const AdminPage = () => {
             <DataTable
                 dataSource={appointments}
                 services={services}
-                loading={isLoading}
+                isLoading={isLoading}
                 onDelete={deleteAppointment}
                 setEditingRecord={setCurrentAppointment}
                 setIsOpenModalEditAppoint={() => setOpenModalUpdateAppointment(true)}
