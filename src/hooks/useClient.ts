@@ -6,8 +6,6 @@ import { handleError } from "@/helpers/errorHelper.ts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useClient = () => {
-    // const [loading, setLoading] = useState(false);
-    // const [appointments, setAppointments] = useState<IRecordAppointment[]>([]);
     const [currentAppointment, setCurrentAppointment] = useState<IRecordAppointment | null>(null);
     const [openModalCreateAppointment, setOpenModalCreateAppointment] = useState<boolean>(false);
     const [openModalUpdateAppointment, setOpenModalUpdateAppointment] = useState<boolean>(false);
@@ -22,7 +20,7 @@ export const useClient = () => {
     const createMutation = useMutation({
         mutationFn: CreateAppointments,
         onSuccess: () => {
-            queryClient.invalidateQueries({
+            void queryClient.invalidateQueries({
                 queryKey: ["appointments"],
             });
             toast.success("Запись создана");
@@ -39,7 +37,7 @@ export const useClient = () => {
         mutationFn: ({ appointmentId, data }: { appointmentId: number; data: Omit<IAppointment, "id"> }) =>
             UpdateAppointments(appointmentId, data),
         onSuccess: () => {
-            queryClient.invalidateQueries({
+            void queryClient.invalidateQueries({
                 queryKey: ["appointments"],
             });
             toast.success("Данные успешно изменены");
@@ -62,7 +60,7 @@ export const useClient = () => {
     const deleteMutation = useMutation({
         mutationFn: DeleteAppointments,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["appointments"] });
+            void queryClient.invalidateQueries({ queryKey: ["appointments"] });
             toast.success("Запись удалена");
         },
         onError: (error: Error) => {
@@ -71,18 +69,26 @@ export const useClient = () => {
         },
     });
 
-    return {
-        appointments: appointmentQuery.data ?? [],
-        isLoading: appointmentQuery.isLoading,
-        loading: updateMutation.isPending,
-        createAppointment: createMutation.mutate,
-        updateAppointment,
-        deleteAppointment: deleteMutation.mutate,
+    const appointsStates = {
         currentAppointment,
         setCurrentAppointment,
         openModalCreateAppointment,
         setOpenModalCreateAppointment,
         openModalUpdateAppointment,
         setOpenModalUpdateAppointment,
+    };
+
+    const tanstackActions = {
+        appointments: appointmentQuery.data ?? [],
+        isLoading: appointmentQuery.isLoading,
+        loading: updateMutation.isPending,
+        createAppointment: createMutation.mutate,
+        updateAppointment,
+        deleteAppointment: deleteMutation.mutate,
+    };
+
+    return {
+        ...tanstackActions,
+        ...appointsStates,
     };
 };
