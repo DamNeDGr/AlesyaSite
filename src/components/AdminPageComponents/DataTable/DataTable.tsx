@@ -12,7 +12,7 @@ import type { IRecordAppointment } from "@/types/appointments.type.ts";
 import type { IService } from "@/types/services.type.ts";
 
 type DataTableProps = {
-    dataSource: IRecordAppointment[];
+    dataSource: IRecordAppointment[] | undefined;
     services: IService[];
     loading: boolean;
     onDelete: (id: number) => void;

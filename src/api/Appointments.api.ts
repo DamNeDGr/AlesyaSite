@@ -11,7 +11,7 @@ export const CreateAppointments = async (data: Omit<IAppointment, "id">) => {
     return res.data;
 };
 
-export const UpdateAppointments = async (data: Omit<IAppointment, "id">, appointmentId: number) => {
+export const UpdateAppointments = async (appointmentId: number, data: Omit<IAppointment, "id">) => {
     const res = await api.patch(`/appointments/${appointmentId}`, data);
     return res.data;
 };

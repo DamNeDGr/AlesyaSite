@@ -3,79 +3,86 @@ import { toast } from "react-toastify";
 import type { IAppointment, IRecordAppointment } from "@/types/appointments.type.ts";
 import { useState } from "react";
 import { handleError } from "@/helpers/errorHelper.ts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useClient = () => {
-    const [loading, setLoading] = useState(false);
-    const [appointments, setAppointments] = useState<IRecordAppointment[]>([]);
+    // const [loading, setLoading] = useState(false);
+    // const [appointments, setAppointments] = useState<IRecordAppointment[]>([]);
     const [currentAppointment, setCurrentAppointment] = useState<IRecordAppointment | null>(null);
     const [openModalCreateAppointment, setOpenModalCreateAppointment] = useState<boolean>(false);
     const [openModalUpdateAppointment, setOpenModalUpdateAppointment] = useState<boolean>(false);
 
-    const handleGetAppointments = async () => {
-        setLoading(true);
-        try {
-            const appointments = await GetAppointments();
-            setAppointments(appointments);
-        } catch (error) {
-            handleError(error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const queryClient = useQueryClient();
 
-    const handleDeleteAppointments = async (id: number) => {
-        try {
-            await DeleteAppointments(id);
-            toast.success("Запись удалена");
-            await handleGetAppointments();
-        } catch (error) {
-            handleError(error);
-        }
-    };
+    const appointmentQuery = useQuery({
+        queryKey: ["appointments"],
+        queryFn: GetAppointments,
+    });
 
-    const handleCreate = async (data: Omit<IAppointment, "id">) => {
-        try {
-            await CreateAppointments(data);
+    const createMutation = useMutation({
+        mutationFn: CreateAppointments,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["appointments"],
+            });
             toast.success("Запись создана");
-            await handleGetAppointments();
             setOpenModalCreateAppointment(false);
-        } catch (error) {
+        },
+        onError: (error: Error) => {
+            toast.error("Ошибка создания записи");
             handleError(error);
-        }
-    };
+            setOpenModalCreateAppointment(false);
+        },
+    });
 
-    const handleEditAppointment = async (data: Omit<IRecordAppointment, "id" | "service">, id: number) => {
-        setLoading(true);
-        try {
-            await UpdateAppointments(data, id);
+    const updateMutation = useMutation({
+        mutationFn: ({ appointmentId, data }: { appointmentId: number; data: Omit<IAppointment, "id"> }) =>
+            UpdateAppointments(appointmentId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["appointments"],
+            });
             toast.success("Данные успешно изменены");
             setOpenModalUpdateAppointment(false);
-            await handleGetAppointments();
-        } catch (error) {
+        },
+        onError: (error: Error) => {
             handleError(error);
-        } finally {
+            toast.error("Ошибка изменения записи");
             setOpenModalUpdateAppointment(false);
-            setLoading(false);
-        }
+        },
+    });
+
+    const updateAppointment = (appointmentId: number, data: Omit<IAppointment, "id">) => {
+        updateMutation.mutate({
+            appointmentId,
+            data,
+        });
     };
 
-    const state = {
-        loading,
+    const deleteMutation = useMutation({
+        mutationFn: DeleteAppointments,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["appointments"] });
+            toast.success("Запись удалена");
+        },
+        onError: (error: Error) => {
+            toast.error("Ошибка удаления записи");
+            handleError(error);
+        },
+    });
+
+    return {
+        appointments: appointmentQuery.data ?? [],
+        isLoading: appointmentQuery.isLoading,
+        loading: updateMutation.isPending,
+        createAppointment: createMutation.mutate,
+        updateAppointment,
+        deleteAppointment: deleteMutation.mutate,
+        currentAppointment,
+        setCurrentAppointment,
         openModalCreateAppointment,
         setOpenModalCreateAppointment,
         openModalUpdateAppointment,
         setOpenModalUpdateAppointment,
-        currentAppointment,
-        setCurrentAppointment,
-        appointments,
     };
-
-    const actions = {
-        handleCreate,
-        handleGetAppointments,
-        handleEditAppointment,
-        handleDeleteAppointments,
-    };
-
-    return { ...state, ...actions };
 };

@@ -13,24 +13,40 @@ export const isAdmin = true;
 export const AdminPage = () => {
     const { services, handleGetService } = useService();
     const {
+        appointments,
+        isLoading,
         loading,
+        createAppointment,
+        updateAppointment,
+        deleteAppointment,
+        currentAppointment,
+        setCurrentAppointment,
         openModalCreateAppointment,
         setOpenModalCreateAppointment,
         openModalUpdateAppointment,
         setOpenModalUpdateAppointment,
-        currentAppointment,
-        setCurrentAppointment,
-        appointments,
-        handleCreate,
-        handleGetAppointments,
-        handleEditAppointment,
-        handleDeleteAppointments,
     } = useClient();
+    // const {
+    //     loading,
+    //     openModalCreateAppointment,
+    //     setOpenModalCreateAppointment,
+    //     openModalUpdateAppointment,
+    //     setOpenModalUpdateAppointment,
+    //     currentAppointment,
+    //     setCurrentAppointment,
+    //     appointments,
+    //     handleCreate,
+    //     handleGetAppointments,
+    //     handleEditAppointment,
+    //     handleDeleteAppointments,
+    // } = useClient();
 
     useEffect(() => {
-        void handleGetAppointments();
+        // void handleGetAppointments();
         void handleGetService();
     }, []);
+
+    console.log(appointments);
 
     return (
         <>
@@ -62,19 +78,18 @@ export const AdminPage = () => {
             <DataTable
                 dataSource={appointments}
                 services={services}
-                loading={loading}
-                onDelete={handleDeleteAppointments}
+                loading={isLoading}
+                onDelete={deleteAppointment}
                 setEditingRecord={setCurrentAppointment}
-                setIsOpenModalEditAppoint={setOpenModalUpdateAppointment}
+                setIsOpenModalEditAppoint={() => setOpenModalUpdateAppointment(true)}
             />
             <ModalBlur open={openModalCreateAppointment} onClose={() => setOpenModalCreateAppointment(false)}>
-                <FormAdd services={services} onCreate={handleCreate} />
+                <FormAdd services={services} onCreate={createAppointment} />
             </ModalBlur>
-            {currentAppointment && (
-                <ModalBlur open={openModalUpdateAppointment} onClose={() => setOpenModalUpdateAppointment(false)}>
-                    <FormEdit services={services} onEdit={handleEditAppointment} data={currentAppointment} loading={loading} />
-                </ModalBlur>
-            )}
+
+            <ModalBlur open={openModalUpdateAppointment} onClose={() => setOpenModalUpdateAppointment(false)}>
+                <FormEdit services={services} onEdit={updateAppointment} data={currentAppointment} loading={loading} />
+            </ModalBlur>
         </>
     );
 };

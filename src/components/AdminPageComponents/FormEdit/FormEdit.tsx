@@ -8,8 +8,8 @@ type formAppointmentsType = Omit<IRecordAppointment, "id" | "service">;
 
 type Props = {
     services: IService[];
-    onEdit: (data: formAppointmentsType, id: number) => void;
-    data: IRecordAppointment;
+    onEdit: (id: number, data: formAppointmentsType) => void;
+    data: IRecordAppointment | null;
     loading?: boolean;
 };
 
@@ -24,6 +24,7 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
+        if (!data) return;
         if (data) {
             form.setFieldsValue({
                 ...data,
@@ -41,9 +42,10 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
             timeStart: values.timeStart.format(),
         };
 
-        onEdit(payload, data.id);
-        form.resetFields();
+        onEdit(data.id, payload);
     };
+
+    console.log("form Edit", data.id);
 
     return (
         <Flex
