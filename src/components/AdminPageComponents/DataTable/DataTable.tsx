@@ -14,7 +14,8 @@ import type { IService } from "@/types/services.type.ts";
 type DataTableProps = {
     dataSource: IRecordAppointment[] | undefined;
     services: IService[];
-    loading: boolean;
+    isLoading: boolean;
+    loading?: boolean;
     onDelete: (id: number) => void;
     setEditingRecord: (record: IRecordAppointment) => void;
     setIsOpenModalEditAppoint: (isOpen: boolean) => void;
@@ -24,6 +25,7 @@ export const DataTable = ({
     dataSource,
     services,
     loading,
+    isLoading,
     onDelete,
     setEditingRecord,
     setIsOpenModalEditAppoint,
@@ -41,7 +43,7 @@ export const DataTable = ({
         {
             key: "delete",
             label: (
-                <Button color="danger" variant="solid" style={{ width: "100%" }}>
+                <Button color="danger" variant="solid" style={{ width: "100%" }} loading={loading}>
                     Удалить
                 </Button>
             ),
@@ -243,7 +245,7 @@ export const DataTable = ({
                 dataSource={dataSource}
                 rowKey="id"
                 size={"middle"}
-                loading={loading}
+                loading={isLoading}
                 pagination={{
                     defaultPageSize: 10,
                     pageSizeOptions: ["5", "10", "20"],

@@ -42,10 +42,10 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
             timeStart: values.timeStart.format(),
         };
 
-        onEdit(data.id, payload);
+        if (data) {
+            onEdit(data?.id, payload);
+        }
     };
-
-    console.log("form Edit", data.id);
 
     return (
         <Flex
