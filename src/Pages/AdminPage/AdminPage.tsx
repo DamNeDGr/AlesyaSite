@@ -45,7 +45,7 @@ export const AdminPage = () => {
                     },
                     {
                         key: 2,
-                        title: <Link to={"/services"}>Услуги</Link>,
+                        title: <Link to={"/admin/services"}>Услуги</Link>,
                     },
                     {
                         key: 3,

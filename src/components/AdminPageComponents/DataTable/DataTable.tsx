@@ -1,14 +1,14 @@
 import dayjs from "dayjs";
 
-import { App as AntApp } from "antd";
+import { App as AntApp, Tag } from "antd";
 
 import { Button, Dropdown, Input, message, Table } from "antd";
 import { useMemo } from "react";
 import { StatusBadge } from "../StatusBadge/StatusBadge.tsx";
 import type { ColumnsType } from "antd/es/table";
 import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
-import { CopyOutlined } from "@ant-design/icons";
-import type { IRecordAppointment } from "@/types/appointments.type.ts";
+import { CheckCircleOutlined, CloseCircleOutlined, CopyOutlined } from "@ant-design/icons";
+import { type IRecordAppointment } from "@/types/appointments.type.ts";
 import type { IService } from "@/types/services.type.ts";
 
 type DataTableProps = {
@@ -201,6 +201,23 @@ export const DataTable = ({
                 render: (status) => <StatusBadge status={status} />,
             },
             {
+                title: "Статус оплаты",
+                dataIndex: "payStatus",
+                key: "payStatus",
+                align: "center",
+                sorter: (a, b) => Number(a.payStatus) - Number(b.payStatus),
+                render: (statusPay) =>
+                    statusPay ? (
+                        <Tag color={"success"} variant={"outlined"} icon={<CheckCircleOutlined />}>
+                            ОПЛАЧЕНО
+                        </Tag>
+                    ) : (
+                        <Tag color={"error"} variant={"outlined"} icon={<CloseCircleOutlined />}>
+                            НЕ ОПЛАЧЕНО
+                        </Tag>
+                    ),
+            },
+            {
                 title: "Действия",
                 key: "actions",
                 align: "center",
@@ -221,7 +238,7 @@ export const DataTable = ({
                                             okText: "Да",
                                             cancelText: "Нет",
                                             width: 200,
-                                            onOk: () => onDelete(Number(record.id)),
+                                            onOk: () => onDelete(record.id),
                                         });
                                     }
                                 },

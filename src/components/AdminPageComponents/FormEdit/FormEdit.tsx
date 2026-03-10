@@ -19,16 +19,18 @@ const STATUS_OPTIONS = [
     { value: "canceled", label: "Отменен" },
     { value: "banned", label: "Черный список" },
 ];
+const PAY_STATUS_OPTIONS = [
+    { value: true, label: "Оплачено" },
+    { value: false, label: "Не оплачено" },
+];
 
 export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
     const [form] = Form.useForm();
-
     useEffect(() => {
         if (!data) return;
         if (data) {
             form.setFieldsValue({
                 ...data,
-                serviceId: data?.service?.id || null,
                 date: dayjs(data.date),
                 timeStart: dayjs(data.timeStart),
             });
@@ -105,6 +107,9 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
 
                 <Form.Item label="Статус" name="status" rules={[{ required: true, message: "Выберите статус" }]}>
                     <Select placeholder="Выберите статус" options={STATUS_OPTIONS} />
+                </Form.Item>
+                <Form.Item label="Статус оплаты" name="payStatus" rules={[{ required: true, message: "Выберите статус оплаты" }]}>
+                    <Select placeholder="Выберите статус оплаты" options={PAY_STATUS_OPTIONS} />
                 </Form.Item>
                 <Button type="primary" htmlType="submit" block loading={loading}>
                     Изменить запись

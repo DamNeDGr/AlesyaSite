@@ -2,6 +2,7 @@ import { Form, Input, Select, DatePicker, TimePicker, Button, Flex } from "antd"
 import type { IService } from "@/types/services.type.ts";
 import type { IAppointment, TAppointmentForm } from "@/types/appointments.type.ts";
 import dayjs from "dayjs";
+import { Navigate } from "react-router";
 
 type CreateAppointmentDTO = Omit<IAppointment, "id">;
 
@@ -24,6 +25,8 @@ export const FormAdd = ({ services, onCreate }: Props) => {
         onCreate(data);
         form.resetFields();
     };
+
+    if (services.length === 0) return <Navigate to={"/services"} />;
 
     return (
         <Flex
