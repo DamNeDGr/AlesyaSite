@@ -6,6 +6,7 @@ import type { IService } from "@/types/services.type.ts";
 type Props = {
     services: IService[];
     loading?: boolean;
+    isLoading?: boolean;
     onEdit: (service: IService) => void;
     onDelete: (id: number) => void;
     openEdit: () => void;
@@ -21,7 +22,7 @@ const formatDuration = (minutes: number) => {
     return `${hours} ч ${mins} мин`;
 };
 
-export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: Props) => {
+export const ServiceTable = ({ services, loading, isLoading, onEdit, onDelete, openEdit }: Props) => {
     const columns: ColumnsType<IService> = [
         {
             title: "Название",
@@ -68,6 +69,7 @@ export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: 
                 ) : (
                     <Button
                         type="primary"
+                        loading={loading}
                         onClick={() => {
                             onEdit(record);
                             openEdit();
@@ -84,10 +86,8 @@ export const ServiceTable = ({ services, loading, onEdit, onDelete, openEdit }: 
             columns={columns}
             dataSource={services}
             rowKey="id"
-            loading={loading}
-            pagination={{
-                pageSize: 10,
-            }}
+            loading={isLoading}
+            pagination={false}
         />
     );
 };

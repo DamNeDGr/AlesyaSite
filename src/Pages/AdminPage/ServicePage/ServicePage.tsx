@@ -16,6 +16,7 @@ export const ServicePage = () => {
         setCurrentService,
         services,
         isLoading,
+        isDeleting,
         loading,
         createService,
         updateService,
@@ -51,7 +52,8 @@ export const ServicePage = () => {
                     onEdit={setCurrentService}
                     openEdit={() => setOpenModalUpdateService(true)}
                     onDelete={deleteService}
-                    loading={isLoading}
+                    isLoading={isLoading}
+                    loading={isDeleting}
                 />
             )}
             <ModalBlur open={openModalService} onClose={() => setOpenModalService(false)}>

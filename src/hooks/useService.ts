@@ -75,6 +75,7 @@ export const useService = () => {
     const tanstackActions = {
         isLoading: serviceQuery.isLoading,
         loading: updateMutation.isPending,
+        isDeleting: deleteService.isPending,
         services: serviceQuery.data ?? [],
         createService: createService.mutate,
         updateService,
