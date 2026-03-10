@@ -27,7 +27,6 @@ export const useClient = () => {
             setOpenModalCreateAppointment(false);
         },
         onError: (error: Error) => {
-            toast.error("Ошибка создания записи");
             handleError(error);
             setOpenModalCreateAppointment(false);
         },
@@ -45,7 +44,6 @@ export const useClient = () => {
         },
         onError: (error: Error) => {
             handleError(error);
-            toast.error("Ошибка изменения записи");
             setOpenModalUpdateAppointment(false);
         },
     });
@@ -64,7 +62,6 @@ export const useClient = () => {
             toast.success("Запись удалена");
         },
         onError: (error: Error) => {
-            toast.error("Ошибка удаления записи");
             handleError(error);
         },
     });
