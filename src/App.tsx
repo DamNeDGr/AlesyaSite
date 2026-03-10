@@ -17,9 +17,9 @@ function App() {
                         <Route element={<MainLayout />}>
                             <Route element={<HomePage />} index />
                         </Route>
-                        <Route element={<AdminLayout />}>
-                            <Route element={<AdminPage />} path={"/admin"} />
-                            <Route element={<ServicePage />} path={"/services"} />
+                        <Route path={"/admin"} element={<AdminLayout />}>
+                            <Route element={<AdminPage />} index />
+                            <Route element={<ServicePage />} path={"services"} />
                         </Route>
                         <Route>
                             <Route path={"*"} element={<NotFoundPage />} />
