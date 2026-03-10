@@ -37,16 +37,41 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
         }
     }, [data, form]);
 
+    function getChangedValues(values: never, initial: never) {
+        const changed: any = {};
+
+        Object.keys(values).forEach((key) => {
+            const value = values[key];
+            const initialValue = initial[key];
+
+            if (value !== initialValue) {
+                changed[key] = value;
+            }
+        });
+
+        return changed;
+    }
+
     const handleSubmit = (values: TAppointmentForm) => {
-        const payload: Omit<IAppointment, "id"> = {
+        if (!data) return;
+
+        const formatted = {
             ...values,
             date: values.date.format("YYYY-MM-DD"),
             timeStart: values.timeStart.format(),
         };
 
-        if (data) {
-            onEdit(data?.id, payload);
+        const payload = getChangedValues(formatted, {
+            ...data,
+            date: data.date,
+            timeStart: data.timeStart,
+        });
+
+        if (Object.keys(payload).length === 0) {
+            return;
         }
+
+        onEdit(data.id, payload);
     };
 
     return (
