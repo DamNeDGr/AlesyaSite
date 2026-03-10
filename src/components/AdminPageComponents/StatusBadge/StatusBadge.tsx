@@ -49,5 +49,9 @@ export const StatusBadge = ({ status }: IStatusBadgeProps) => {
     if (!config) {
         return <Tag color={"cyan"}>{status}</Tag>;
     }
-    return <Tag color={config.color}>{config.label}</Tag>;
+    return (
+        <Tag color={config.color} variant={"outlined"}>
+            {config.label}
+        </Tag>
+    );
 };
