@@ -33,7 +33,7 @@ export const ProfileMenu = ({ title, btnTitle, openAppoint }: ProfileMenuProps) 
                             src={
                                 <img
                                     draggable={false}
-                                    src={"https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"}
+                                    src={"https://avatars.githubusercontent.com/u/194438934?v=4&size=64"}
                                     alt="avatar"
                                 />
                             }
