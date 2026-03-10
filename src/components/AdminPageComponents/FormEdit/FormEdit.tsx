@@ -37,7 +37,7 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
         }
     }, [data, form]);
 
-    function getChangedValues(values: never, initial: never) {
+    function getChangedValues(values: any, initial: any) {
         const changed: any = {};
 
         Object.keys(values).forEach((key) => {
