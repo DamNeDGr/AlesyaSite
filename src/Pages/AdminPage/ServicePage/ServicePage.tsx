@@ -3,7 +3,7 @@ import { ProfileMenu } from "@/components/AdminPageComponents/ProfileMenu";
 import { ModalBlur } from "@/components/AdminPageComponents/ModalBlur";
 import { FormAddService } from "@/components/AdminPageComponents/FormAddService/FormAddService.tsx";
 import { Link } from "react-router";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, Grid } from "antd";
 import { useService } from "@/hooks/useService.ts";
 
 export const ServicePage = () => {
@@ -23,12 +23,21 @@ export const ServicePage = () => {
         deleteService,
     } = useService();
 
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint();
+    const isMobile = !screens.md;
+
     return (
         <>
-            <ProfileMenu title={"Список услуг"} btnTitle={"Добавить услугу"} openAppoint={() => setOpenModalService(true)} />
+            <ProfileMenu
+                title={"Список услуг"}
+                btnTitle={"Добавить услугу"}
+                openAppoint={() => setOpenModalService(true)}
+                isMobile={isMobile}
+            />
             <Breadcrumb
                 style={{
-                    padding: "5px 0",
+                    padding: "20px 0",
                 }}
                 separator=">"
                 items={[
@@ -46,16 +55,17 @@ export const ServicePage = () => {
                     },
                 ]}
             />
-            {services !== null && (
-                <ServiceTable
-                    services={services}
-                    onEdit={setCurrentService}
-                    openEdit={() => setOpenModalUpdateService(true)}
-                    onDelete={deleteService}
-                    isLoading={isLoading}
-                    loading={isDeleting}
-                />
-            )}
+
+            <ServiceTable
+                services={services}
+                onEdit={setCurrentService}
+                openEdit={() => setOpenModalUpdateService(true)}
+                onDelete={deleteService}
+                isLoading={isLoading}
+                loading={isDeleting}
+                isMobile={isMobile}
+            />
+
             <ModalBlur open={openModalService} onClose={() => setOpenModalService(false)}>
                 <FormAddService loading={loading} onCreate={createService} />
             </ModalBlur>

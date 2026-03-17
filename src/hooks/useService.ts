@@ -27,7 +27,6 @@ export const useService = () => {
             setOpenModalService(false);
         },
         onError: (error: Error) => {
-            toast.error("Ошибка создания услуги");
             handleError(error);
             setOpenModalService(false);
         },
@@ -46,7 +45,6 @@ export const useService = () => {
         },
         onError: (error) => {
             handleError(error);
-            toast.error("Ошибка изменения услуги");
             setOpenModalUpdateService(false);
         },
     });
@@ -67,7 +65,6 @@ export const useService = () => {
             toast.success("Услуга удалена");
         },
         onError: (error: Error) => {
-            toast.error("Ошибка удаления услуги");
             handleError(error);
         },
     });

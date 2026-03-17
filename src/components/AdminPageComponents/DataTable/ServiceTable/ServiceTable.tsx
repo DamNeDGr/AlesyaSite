@@ -2,6 +2,7 @@ import { Table, Button, Space, Popconfirm } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
 import type { IService } from "@/types/services.type.ts";
+import { ServiceCard } from "@/components/AdminPageComponents/ServiceCard";
 
 type Props = {
     services: IService[];
@@ -10,6 +11,7 @@ type Props = {
     onEdit: (service: IService) => void;
     onDelete: (id: number) => void;
     openEdit: () => void;
+    isMobile: boolean;
 };
 
 const formatDuration = (minutes: number) => {
@@ -22,7 +24,7 @@ const formatDuration = (minutes: number) => {
     return `${hours} ч ${mins} мин`;
 };
 
-export const ServiceTable = ({ services, loading, isLoading, onEdit, onDelete, openEdit }: Props) => {
+export const ServiceTable = ({ services, loading, isLoading, onEdit, onDelete, openEdit, isMobile }: Props) => {
     const columns: ColumnsType<IService> = [
         {
             title: "Название",
@@ -81,13 +83,10 @@ export const ServiceTable = ({ services, loading, isLoading, onEdit, onDelete, o
         },
     ];
 
-    return (
-        <Table
-            columns={columns}
-            dataSource={services}
-            rowKey="id"
-            loading={isLoading}
-            pagination={false}
-        />
-    );
+    if (isMobile)
+        return services.map((service) => (
+            <ServiceCard key={service.id} service={service} onEdit={onEdit} openEdit={openEdit} onDelete={onDelete} />
+        ));
+
+    return <Table columns={columns} dataSource={services} rowKey="id" loading={isLoading} pagination={false} />;
 };

@@ -10,16 +10,14 @@ import "dayjs/locale/ru";
 dayjs.locale("ru");
 import { ConfigProvider, theme as THEME } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <ConfigProvider theme={{ algorithm: THEME.darkAlgorithm }} locale={ruRU}>
-                <App />
-                <ReactQueryDevtools />
-            </ConfigProvider>
-        </QueryClientProvider>
-    </StrictMode>,
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ConfigProvider theme={{ algorithm: THEME.darkAlgorithm }} locale={ruRU}>
+        <App />
+      </ConfigProvider>
+    </QueryClientProvider>
+  </StrictMode>,
 );

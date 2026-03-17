@@ -1,14 +1,14 @@
 import { Form, Input, Select, DatePicker, TimePicker, Button, Flex } from "antd";
 import { useEffect } from "react";
 import dayjs from "dayjs";
-import type { IAppointment, IRecordAppointment, TAppointmentForm } from "@/types/appointments.type.ts";
+import type { IRecordAppointment, TAppointmentForm } from "@/types/appointments.type.ts";
 import type { IService } from "@/types/services.type.ts";
 
 type formAppointmentsType = Omit<IRecordAppointment, "id" | "service">;
 
 type Props = {
     services: IService[];
-    onEdit: (id: number, data: formAppointmentsType) => void;
+    onEdit: (id: number, data: Partial<formAppointmentsType>) => void;
     data: IRecordAppointment | null;
     loading?: boolean;
 };
@@ -37,15 +37,14 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
         }
     }, [data, form]);
 
-    function getChangedValues(values: any, initial: any) {
-        const changed: any = {};
+    function getChangedValues<T extends Record<string, unknown>>(values: T, initial: T): Partial<T> {
+        const changed: Partial<T> = {};
 
         Object.keys(values).forEach((key) => {
-            const value = values[key];
-            const initialValue = initial[key];
+            const typedKey = key as keyof T;
 
-            if (value !== initialValue) {
-                changed[key] = value;
+            if (values[typedKey] !== initial[typedKey]) {
+                changed[typedKey] = values[typedKey];
             }
         });
 
@@ -55,13 +54,13 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
     const handleSubmit = (values: TAppointmentForm) => {
         if (!data) return;
 
-        const formatted = {
+        const formatted: formAppointmentsType = {
             ...values,
             date: values.date.format("YYYY-MM-DD"),
             timeStart: values.timeStart.format(),
         };
 
-        const payload = getChangedValues(formatted, {
+        const payload = getChangedValues<formAppointmentsType>(formatted, {
             ...data,
             date: data.date,
             timeStart: data.timeStart,
@@ -104,6 +103,7 @@ export const FormEdit = ({ services, onEdit, data, loading }: Props) => {
                     <DatePicker
                         style={{ width: "100%" }}
                         format={"DD.MM.YYYY"}
+                        placement={"topLeft"}
                         disabledDate={(current) =>
                             current && (current < dayjs().startOf("day") || current > dayjs().add(40, "day").endOf("day"))
                         }

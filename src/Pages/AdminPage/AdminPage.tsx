@@ -3,7 +3,7 @@ import { FormAdd } from "@/components/AdminPageComponents/FormAdd";
 import { ProfileMenu } from "@/components/AdminPageComponents/ProfileMenu";
 import { ModalBlur } from "@/components/AdminPageComponents/ModalBlur";
 import { FormEdit } from "@/components/AdminPageComponents/FormEdit";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, Drawer, Grid } from "antd";
 import { Link } from "react-router";
 import { useClient } from "@/hooks/useClient.ts";
 import { useService } from "@/hooks/useService.ts";
@@ -25,6 +25,9 @@ export const AdminPage = () => {
         setOpenModalUpdateAppointment,
     } = useClient();
     const { services } = useService();
+    const { useBreakpoint } = Grid;
+    const screens = useBreakpoint();
+    const isMobile = !screens.md;
 
     return (
         <>
@@ -32,10 +35,11 @@ export const AdminPage = () => {
                 title={"Список клиентов"}
                 btnTitle={"Добавить запись"}
                 openAppoint={() => setOpenModalCreateAppointment(true)}
+                isMobile={isMobile}
             />
             <Breadcrumb
                 style={{
-                    padding: "5px 0",
+                    padding: "20px 0",
                 }}
                 separator=">"
                 items={[
@@ -60,14 +64,32 @@ export const AdminPage = () => {
                 onDelete={deleteAppointment}
                 setEditingRecord={setCurrentAppointment}
                 setIsOpenModalEditAppoint={() => setOpenModalUpdateAppointment(true)}
+                isMobile={isMobile}
             />
-            <ModalBlur open={openModalCreateAppointment} onClose={() => setOpenModalCreateAppointment(false)}>
-                <FormAdd services={services} onCreate={createAppointment} />
-            </ModalBlur>
 
-            <ModalBlur open={openModalUpdateAppointment} onClose={() => setOpenModalUpdateAppointment(false)}>
-                <FormEdit services={services} onEdit={updateAppointment} data={currentAppointment} loading={loading} />
-            </ModalBlur>
+            {isMobile ? (
+                <Drawer
+                    open={openModalCreateAppointment}
+                    onClose={() => setOpenModalCreateAppointment(false)}
+                    title="Создать запись"
+                >
+                    <FormAdd services={services} onCreate={createAppointment} />
+                </Drawer>
+            ) : (
+                <ModalBlur open={openModalCreateAppointment} onClose={() => setOpenModalCreateAppointment(false)}>
+                    <FormAdd services={services} onCreate={createAppointment} />
+                </ModalBlur>
+            )}
+
+            {isMobile ? (
+                <Drawer open={openModalUpdateAppointment} onClose={() => setOpenModalUpdateAppointment(false)}>
+                    <FormEdit services={services} onEdit={updateAppointment} data={currentAppointment} loading={loading} />
+                </Drawer>
+            ) : (
+                <ModalBlur open={openModalUpdateAppointment} onClose={() => setOpenModalUpdateAppointment(false)}>
+                    <FormEdit services={services} onEdit={updateAppointment} data={currentAppointment} loading={loading} />
+                </ModalBlur>
+            )}
         </>
     );
 };

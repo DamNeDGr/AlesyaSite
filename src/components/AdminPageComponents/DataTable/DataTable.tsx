@@ -10,6 +10,7 @@ import { isAdmin } from "@/Pages/AdminPage/AdminPage.tsx";
 import { CheckCircleOutlined, CloseCircleOutlined, CopyOutlined } from "@ant-design/icons";
 import { type IRecordAppointment } from "@/types/appointments.type.ts";
 import type { IService } from "@/types/services.type.ts";
+import {OrderCard} from "@/components/AdminPageComponents/OrderCard";
 
 type DataTableProps = {
     dataSource: IRecordAppointment[] | undefined;
@@ -19,6 +20,7 @@ type DataTableProps = {
     onDelete: (id: number) => void;
     setEditingRecord: (record: IRecordAppointment) => void;
     setIsOpenModalEditAppoint: (isOpen: boolean) => void;
+    isMobile: boolean;
 };
 
 export const DataTable = ({
@@ -29,6 +31,7 @@ export const DataTable = ({
     onDelete,
     setEditingRecord,
     setIsOpenModalEditAppoint,
+    isMobile
 }: DataTableProps) => {
     const { modal } = AntApp.useApp();
     const adminActions = [
@@ -61,17 +64,18 @@ export const DataTable = ({
     ];
     const columns: ColumnsType<IRecordAppointment> = useMemo(
         () => [
-            {
-                title: "№",
-                render: (_: unknown, __: unknown, index: number) => index + 1,
-                width: 70,
-                align: "center",
-            },
+            // {
+            //     title: "№",
+            //     render: (_: unknown, __: unknown, index: number) => index + 1,
+            //     width: 70,
+            //     align: "center",
+            // },
             {
                 title: "Имя",
                 dataIndex: "name",
                 key: "name",
                 align: "center",
+                fixed: "left",
                 filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
                     <div
                         style={{
@@ -255,10 +259,28 @@ export const DataTable = ({
         [services, modal, onDelete, setEditingRecord, setIsOpenModalEditAppoint, adminActions, moderatorActions],
     );
 
+    if (isMobile) {
+        return (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {dataSource?.map((record) => (
+                    <OrderCard
+                        key={record.id}
+                        record={record}
+                        onDelete={onDelete}
+                        setEditingRecord={setEditingRecord}
+                        setIsOpenModalEditAppoint={setIsOpenModalEditAppoint}
+                        loading={loading}
+                    />
+                ))}
+            </div>
+        );
+    }
+
     return (
         <>
             <Table<IRecordAppointment>
                 columns={columns}
+                scroll={{ x: "max-content" }}
                 dataSource={dataSource}
                 rowKey="id"
                 size={"middle"}

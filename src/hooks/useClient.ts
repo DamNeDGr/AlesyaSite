@@ -33,7 +33,7 @@ export const useClient = () => {
     });
 
     const updateMutation = useMutation({
-        mutationFn: ({ appointmentId, data }: { appointmentId: number; data: Omit<IAppointment, "id"> }) =>
+        mutationFn: ({ appointmentId, data }: { appointmentId: number; data: Partial<Omit<IAppointment, "id">> }) =>
             UpdateAppointments(appointmentId, data),
         onSuccess: () => {
             void queryClient.invalidateQueries({
@@ -48,7 +48,7 @@ export const useClient = () => {
         },
     });
 
-    const updateAppointment = (appointmentId: number, data: Omit<IAppointment, "id">) => {
+    const updateAppointment = (appointmentId: number, data: Partial<Omit<IAppointment, "id">>) => {
         updateMutation.mutate({
             appointmentId,
             data,

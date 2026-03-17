@@ -1,23 +1,34 @@
 import { Avatar, Button, Flex } from "antd";
 import { ProfileDropdown } from "@/components/AdminPageComponents/ProfileDropdown";
+import { useAuthStore } from "@/store/authStore.ts";
 
 interface ProfileMenuProps {
     title: string;
     btnTitle: string;
     openAppoint: () => void;
+    isMobile: boolean;
 }
 
-export const ProfileMenu = ({ title, btnTitle, openAppoint }: ProfileMenuProps) => {
+export const ProfileMenu = ({ title, btnTitle, openAppoint, isMobile }: ProfileMenuProps) => {
+    const user = useAuthStore((state) => state.user);
     return (
         <>
             <Flex
                 style={{
                     padding: "5px 0",
                     justifyContent: "space-between",
+                    alignItems: "center",
                 }}
             >
                 <div>
-                    <h2>{title}</h2>
+                    <h2
+                        style={{
+                            fontSize: isMobile ? "16px" : "26px",
+                            marginBottom: 0,
+                        }}
+                    >
+                        {title}
+                    </h2>
                 </div>
                 <div
                     style={{
@@ -26,18 +37,20 @@ export const ProfileMenu = ({ title, btnTitle, openAppoint }: ProfileMenuProps) 
                         alignItems: "center",
                     }}
                 >
-                    <Button onClick={openAppoint}>{btnTitle}</Button>
+                    <Button
+                        style={{
+                            fontSize: isMobile ? "12px" : "16px",
+                        }}
+                        onClick={openAppoint}
+                    >
+                        {btnTitle}
+                    </Button>
                     <ProfileDropdown>
-                        <Avatar
-                            style={{ cursor: "pointer" }}
-                            src={
-                                <img
-                                    draggable={false}
-                                    src={"https://avatars.githubusercontent.com/u/194438934?v=4&size=64"}
-                                    alt="avatar"
-                                />
-                            }
-                        />
+                        {user && (
+                            <Avatar style={{ backgroundColor: "blue", verticalAlign: "middle" }} size="large" gap={3}>
+                                {user?.username.slice(0, 1).toUpperCase()}
+                            </Avatar>
+                        )}
                     </ProfileDropdown>
                 </div>
             </Flex>

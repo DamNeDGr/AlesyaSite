@@ -26,7 +26,7 @@ export const FormAdd = ({ services, onCreate }: Props) => {
         form.resetFields();
     };
 
-    if (services.length === 0) return <Navigate to={"/services"} />;
+    if (services.length === 0) return <Navigate to={"/admin/services"} />;
 
     return (
         <Flex
@@ -46,6 +46,9 @@ export const FormAdd = ({ services, onCreate }: Props) => {
 
                 <Form.Item label="Услуга" name="serviceId" rules={[{ required: true, message: "Выберите услугу" }]}>
                     <Select
+                        style={{
+                            fontSize: "16px",
+                        }}
                         placeholder="Выберите услугу"
                         options={services.map((s) => ({
                             label: s.name,
@@ -56,8 +59,9 @@ export const FormAdd = ({ services, onCreate }: Props) => {
 
                 <Form.Item label="Дата" name="date" rules={[{ required: true, message: "Выберите дату" }]}>
                     <DatePicker
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", fontSize: 16 }}
                         format={"DD.MM.YYYY"}
+                        placement={"topLeft"}
                         disabledDate={(current) =>
                             current && (current < dayjs().startOf("day") || current > dayjs().add(40, "day").endOf("day"))
                         }
@@ -67,7 +71,7 @@ export const FormAdd = ({ services, onCreate }: Props) => {
                 <Form.Item label="Время" name="timeStart" rules={[{ required: true, message: "Выберите время" }]}>
                     <TimePicker
                         format="HH:mm"
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", fontSize: 16 }}
                         minuteStep={10}
                         disabledTime={() => ({
                             disabledHours: () => [
