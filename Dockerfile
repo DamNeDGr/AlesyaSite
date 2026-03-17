@@ -1,16 +1,11 @@
-FROM node:20
+FROM node:20 AS builder
 
 WORKDIR /app
-
-# зависимости
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+RUN npm install
 
-# код
 COPY . .
+RUN npm run build
 
-# порт vite
-EXPOSE 5173
-
-# запуск dev сервера
-CMD ["npm", "run", "dev"]
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
