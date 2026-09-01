@@ -1,0 +1,23 @@
+import useReveal from "@/hooks/useReveal.ts";
+
+export const Trust = () => {
+    const revealRef = useReveal();
+    return (
+        <>
+            <section ref={revealRef} className="section section-soft reveal" id="trust">
+                <div className="container narrow">
+                    <p className="eyebrow center">Почему мне доверяют</p>
+                    <h2 className="trust__title">Профессионально, спокойно и с заботой о каждом ребёнке</h2>
+                    <ul className="trust-list">
+                        <li>Большой опыт работы в данной сфере.</li>
+                        <li>Индивидуальный план с учётом возраста и особенностей развития.</li>
+                        <li>Бережные техники без давления и перегрузки.</li>
+                        <li>Понятная обратная связь для родителей после занятия.</li>
+                        <li>Безопасная и доброжелательная атмосфера на каждой встрече.</li>
+                        <li>Сопровождение семьи на пути к устойчивому результату.</li>
+                    </ul>
+                </div>
+            </section>
+        </>
+    );
+};
